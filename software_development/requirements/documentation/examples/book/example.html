@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>
+A book
+</title>
+
+<meta name="description" content="An example of a book.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="color-scheme" content="dark light">
+
+<link rel="stylesheet" href="../../../../../.libraries/theme.css">
+
+<link rel="stylesheet" href="book.css">
+<link rel="stylesheet" href="example.css">
+<script src="contents.js" defer></script>
+
+</head>
+
+<body>
+
+<div book>
+
+<div page>
+
+<header cover>
+
+<h1 title>
+An example of a book
+</h1>
+
+<h3 author>
+by an author
+</h3>
+
+<h3 date>
+2022
+</h3>
+
+</header>
+
+</div>
+
+<div page id="preface">
+
+<section content>
+
+<h2>
+Preface
+</h2>
+
+<p>
+This is an example of a book implemented with HTML, CSS and JS.
+It mainly demonstrates the approach to mark up paged content the way so that
+the document properly reads directly in a browser
+as well as prints onto paper or converts into the paged document formats.
+The key points described are:</p>
+<div indent>
+    representation implementation separated for browsers and paged environments<br>
+    <div indent>
+        that are reusable and extendable;<br>
+    </div>
+    a page and its layout:<br>
+    <div indent>
+        footers<br>
+        <div indent>
+            altered for certain pages, especially the cover,<br>
+            numbered pages,<br>
+        </div>
+        also page orientation switching; —<br>
+    </div>
+    page breaks;<br>
+    a table of contents with<br>
+    <div indent>
+        cross reference links and<br>
+        page numbers.<br>
+    </div>
+</div>
+
+<p>
+Browsers are not well suited for paged content.
+Albeit there is a
+<a href="https://www.w3.org/TR/css-page-3/" reference>
+specification</a> for a CSS module that brings definitions about paged documents.
+Support for the standard is not that great.
+For example, the @page :nth(n) {} selector does not work in chromium.
+So there is an undertaking to polyfill unsupported features.
+<a href="https://pagedjs.org/about/" reference>
+Paged.js</a> aims to fill up the gap.
+There is a convenient
+<a href="https://pagedjs.org/documentation/cheatsheet/" reference>
+list</a> of the features and their support status.<br>
+</p>
+
+<p>
+But overall interraction model is not straightforward either.
+In browsers most of the style rules have no effect by default.
+They only kick in when invoking the printing dialog or converting into PDF in the headless mode.
+Another option is to force print media emulation in developer's tools,
+which does not even draw page rectangles.
+And there are options, like preserving background colors,
+that want to be clicked manually.
+Paged.js emulates print media features and displays content as a book directly.
+But it would be perfect if there was a meta tag option that
+would tell browsers to turn into a book reader.
+</p>
+
+<p>
+This example marks up every page manually.
+There is no easy way to emulate print media with automatic page breaks.
+Firstly, the CSS regions module,
+which would be very handy for flowing content through the emulated pages,
+is not yet available.
+Secondly, the task of inferring content size correctly and reliably is tedious and
+Google Docs worthy.
+Well, placing tags for every page manually so that
+its content has a container that facilitates emulation
+is also tiresome,
+especially when a picture or a table has to be split between, but straight and explicit.
+</p>
+
+<p>
+The target-counter() function also has not yet received browser support.
+So quirks to be used to display the page number in the table on contents.
+</p>
+
+</section>
+
+<footer footer><span page_number></span></footer>
+
+</div>
+
+<div page>
+
+<section content>
+
+<h4>
+References
+</h4>
+
+<div indent>
+
+<br>
+
+CSS Paged Media Module Level 3
+<a href="https://www.w3.org/TR/css-page-3/" reference>
+https://www.w3.org/TR/css-page-3/</a><br>
+
+<br>
+
+Paged.js
+<a href="https://pagedjs.org/about/" reference>
+https://pagedjs.org/about/</a><br>
+<div indent>
+    <a href="https://gitlab.coko.foundation/pagedjs/pagedjs" reference>
+    https://gitlab.coko.foundation/pagedjs/pagedjs</a><br>
+    <a href="https://github.com/pagedjs/pagedjs" reference>
+    https://github.com/pagedjs/pagedjs</a><br>
+    <a href="https://gitlab.coko.foundation/pagedjs/parametricpagedjs" reference>
+    parametricPagedJs</a><br>
+    <a href="https://github.com/pagedjs/pagedjs/issues/100" reference>
+    https://github.com/pagedjs/pagedjs/issues/100</a><br>
+</div>
+
+<br>
+
+print-css.rocks tutorial
+<a href="https://print-css.rocks/" reference>
+https://print-css.rocks/</a><br>
+
+<br>
+
+specialized converters with numerous examples<br>
+<div indent>
+
+    <br>
+
+    Prince
+    <a href="https://www.princexml.com/" reference>
+    https://www.princexml.com/</a><br>
+
+    <br>
+
+    WeasyPrint
+    <a href="https://weasyprint.org/" reference>
+    https://weasyprint.org/</a><br>
+
+</div>
+
+<br>
+
+HTMLBook specification draft
+<a href="https://github.com/oreillymedia/HTMLBook" reference>
+https://github.com/oreillymedia/HTMLBook</a><br>
+
+<br>
+
+print media presenters<br>
+<div indent>
+
+    <br>
+
+    Sheets of Paper
+    <a href="https://github.com/delight-im/HTML-Sheets-of-Paper" reference>
+    https://github.com/delight-im/HTML-Sheets-of-Paper</a><br>
+
+    <br>
+
+    BookJS
+    <a href="https://www.sourcefabric.org/blog/introducing-bookjs" reference>
+    blog post</a><br>
+    <a href="https://github.com/booktype/BookJS-examples" reference>
+    https://github.com/booktype/BookJS-examples</a><br>
+
+</div>
+
+<br>
+
+miscellaneous<br>
+<div indent>
+
+    <br>
+
+    a print styles framework
+    <a href="https://github.com/BafS/Gutenberg" reference>
+    https://github.com/BafS/Gutenberg</a><br>
+
+    <br>
+
+    Print Ready headless converter
+    <a href="https://github.com/humanwhocodes/print-ready" reference>
+    https://github.com/humanwhocodes/print-ready</a><br>
+
+    <br>
+
+    a <a href="https://excessivelyadequate.com/posts/print.html" reference>
+    blog post</a> about some relevant CSS features and interaction with browsers<br>
+
+    <br>
+
+    Perfect Table of Contents with HTML and CSS
+    <a href="https://css-tricks.com/a-perfect-table-of-contents-with-html-css/" reference>
+    guide</a><br>
+
+    <br>
+
+    a page orientation
+    <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=1312978" reference>
+    bug</a> in chromium<br>
+
+</div>
+
+</div>
+
+</section>
+
+<footer footer><span page_number></span></footer>
+
+</div>
+
+<div page>
+
+<section content>
+
+<h2>
+Contents
+</h2>
+
+<ol contents>
+
+<li>
+<a href="#preface">
+<span text>
+Preface
+<span leaders></span>
+</span>
+<span number></span>
+</a>
+</li>
+
+<li>
+
+<a href="#chapter_1">
+<span text>
+Chapter 1
+<span leaders></span>
+</span>
+<span number></span>
+</a>
+
+<ol>
+<li>
+<a href="#chapter_1_subchapter_1">
+<span text>
+Subchapter 1
+<span leaders></span>
+</span>
+<span number></span>
+</a>
+</li>
+</ol>
+
+</li>
+
+<li>
+<a href="#chapter_2">
+<span text>
+Chapter 2
+<span leaders></span>
+</span>
+<span number></span>
+</a>
+</li>
+
+</ol>
+
+</section>
+
+</div>
+
+<div page>
+
+<section content id="chapter_1">
+
+<h2>
+Chapter 1
+</h2>
+
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Curabitur in felis id elit mattis fringilla. Aenean a viverra dui, non facilisis mauris.
+Integer eleifend, mi quis molestie finibus, mauris enim vehicula enim,
+ut commodo odio nisi eget risus.
+Nunc pharetra porta maximus.
+Duis sagittis magna ut dolor aliquet, at venenatis justo suscipit.
+Proin et ante auctor, ullamcorper orci vitae, efficitur nibh. Etiam a posuere ligula.
+Duis erat tellus, sodales et ante nec, tempus imperdiet quam.
+Donec dictum feugiat nulla vel feugiat.
+Ut a elit lacinia, aliquam justo id, viverra orci.
+Integer sit amet augue est.
+Pellentesque vitae magna at nunc cursus hendrerit ullamcorper egestas nunc.
+Vivamus cursus lorem sit amet dolor porta, et pretium turpis lacinia.
+Donec pharetra pretium ipsum, ut iaculis sem laoreet non.
+Morbi eu sapien non nibh aliquet pulvinar ut eget magna.
+Nunc lobortis risus id pretium facilisis.
+</p>
+
+<p>
+Nunc mollis tempor mattis.
+Sed a neque ultrices, cursus nulla id, maximus massa.
+Praesent lobortis tincidunt tortor, vel faucibus ligula facilisis quis.
+Suspendisse sed felis at tellus hendrerit aliquet.
+Duis gravida libero ut augue ultricies finibus.
+Mauris ac odio in mi vulputate fringilla id nec libero.
+Curabitur in odio mi.
+Praesent eu dapibus ex.
+Vestibulum pharetra, turpis at hendrerit pulvinar, tellus magna congue nunc,
+sit amet dictum enim lectus ut eros.
+Vivamus ligula dui, auctor vel nibh nec, rhoncus fermentum ex.
+Proin consequat vitae nibh eget tempus.
+</p>
+
+<p id="chapter_1_subchapter_1">
+Donec quis bibendum ipsum.
+Maecenas eu laoreet mauris.
+Maecenas diam felis, faucibus sit amet bibendum nec, accumsan eget ante.
+Praesent lacus risus, condimentum nec mauris vel, blandit porta orci.
+Etiam non erat hendrerit massa mollis malesuada.
+Phasellus imperdiet, ipsum sit amet sollicitudin porta, mauris arcu commodo purus,
+id bibendum nisl purus sed augue.
+Proin risus nisl, rutrum non porta eu, accumsan vel lacus.
+</p>
+
+<p>
+Vestibulum vel vulputate lorem, in tempor libero.
+Donec at malesuada quam.
+Nam congue lacus a leo maximus, ut pellentesque nisi hendrerit.
+Duis ultricies dolor et finibus pharetra.
+Ut luctus consequat eleifend.
+Ut rhoncus tempus faucibus.
+Mauris finibus, eros ut tempor sodales, tortor dui auctor odio, quis vulputate mi mauris sed orci.
+Donec efficitur lacinia felis, eget pellentesque purus lacinia a.
+Aliquam ultricies neque urna. Nullam quis euismod est.
+rci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+Interdum et malesuada fames ac ante ipsum primis in faucibus.
+</p>
+
+<p>
+Phasellus laoreet mollis leo eu rutrum.
+In quis posuere nulla, pulvinar tristique metus.
+Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+Aenean a blandit arcu, porttitor lobortis arcu.
+Duis varius risus vitae volutpat vestibulum.
+Sed elementum eleifend turpis, eu commodo ex egestas et.
+Nulla mattis enim sit amet leo fringilla blandit.
+Pellentesque mattis est sed ullamcorper elementum.
+Donec leo massa, iaculis id tempor a, hendrerit ut tortor.
+Maecenas ut neque pulvinar, ultrices augue a, maximus tellus.
+Fusce in fringilla elit. In hac habitasse platea dictumst.
+Aliquam sapien nisi, molestie vel posuere vel, vulputate eu dui.
+Donec laoreet luctus congue.
+Aenean sodales, purus rutrum ultricies venenatis, odio diam mollis ex,
+et tristique ligula tellus suscipit nulla.
+Nunc ac blandit erat, non condimentum massa.
+</p>
+
+<p>
+Curabitur iaculis sem ut mauris ornare, id tempus ante tempus.
+Nullam volutpat in ligula eget pellentesque.
+Fusce sed egestas neque.
+Suspendisse viverra eros venenatis libero posuere ornare.
+Proin tincidunt justo venenatis felis laoreet porttitor.
+Proin porttitor velit non erat venenatis vehicula.
+Morbi egestas congue accumsan.
+Donec ornare nibh purus, sit amet rutrum diam molestie eu.
+Nam sodales porttitor eros et pellentesque.
+Aenean ante metus, consectetur sit amet tortor at, varius convallis mauris.
+Curabitur elementum neque non felis eleifend tempor.
+</p>
+
+<p>
+Phasellus mattis non magna ac vestibulum.
+Donec pharetra massa nec efficitur sagittis.
+Maecenas at suscipit dui.
+Integer nec metus augue.
+Vivamus ac fermentum felis.
+Ut ultricies dui dolor, quis lobortis odio elementum non.
+Fusce suscipit ut massa non viverra.
+Vivamus maximus porttitor quam at maximus.
+Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+Cras et dictum ligula. Ut ultricies dolor ut risus dignissim condimentum.
+Integer aliquet, enim at lobortis condimentum, nunc purus interdum nisl,
+ut euismod nisl felis vitae lacus.
+Nunc fermentum elit sed nisl hendrerit, quis hendrerit nulla bibendum.
+Etiam elementum
+</p>
+
+</section>
+
+<footer footer><span page_number></span></footer>
+
+</div>
+
+<div page landscape id="chapter_2">
+
+<section content>
+
+<p continue>
+mattis finibus.
+Phasellus sit amet quam ex.
+Sed fringilla orci in ante tristique ornare.
+Etiam mattis, nunc condimentum tristique aliquam,
+erat libero luctus velit, sed suscipit purus risus vel leo.
+Nam in efficitur neque, euismod vestibulum nisi.
+Etiam tincidunt, massa bibendum scelerisque imperdiet,
+magna sapien eleifend purus, sit amet aliquam diam nibh quis ipsum.
+Nulla facilisi.
+Nullam viverra dolor nec nunc pulvinar, in elementum metus scelerisque.
+Ut felis odio, hendrerit sed auctor vitae, placerat ac libero.
+Aliquam a lacus non diam ornare bibendum vel id neque.
+Proin pretium a urna vel eleifend.
+Aenean at ultricies arcu.
+</p>
+
+<p>
+Duis et dolor quis dui gravida commodo.
+Sed sit amet dictum felis, tincidunt feugiat mauris.
+Phasellus ultricies ipsum at consequat scelerisque.
+Vivamus volutpat at tortor non tempor.
+Aliquam erat volutpat.
+Nulla ullamcorper eu sem sed commodo.
+Cras eget congue ex, iaculis luctus lectus.
+Aliquam feugiat eleifend vehicula.
+Suspendisse a accumsan velit, eu dictum augue.
+Morbi accumsan nisl vitae erat porttitor, in malesuada arcu maximus.
+Nam efficitur dignissim varius.
+Pellentesque sit amet euismod arcu, eu iaculis mi. Nunc et erat erat.
+In gravida molestie turpis vel elementum.
+Ut nisi velit, gravida sed rutrum eget, aliquet non nisl.
+</p>
+
+<p>
+Sed mauris lectus, blandit ut bibendum at, sodales a justo.
+Praesent et mollis lorem.
+Fusce fermentum, arcu quis condimentum euismod,
+nisi risus vehicula eros, ac rhoncus sapien est eu mauris.
+Curabitur in leo at nisi aliquet bibendum sit amet ut tortor.
+Nunc tincidunt massa vitae purus feugiat pulvinar.
+Cras dapibus dui sit amet quam mattis, vel ultrices mauris tempor.
+Nunc vulputate eleifend vestibulum.
+Donec ullamcorper rutrum maximus.
+Fusce eget augue nec purus faucibus suscipit ut consectetur felis.
+Nullam auctor pulvinar sem eu tincidunt.
+Praesent vestibulum sapien eget dui maximus consequat.
+Pellentesque semper vulputate facilisis.
+Donec aliquet vel libero vitae suscipit.
+Sed consectetur finibus euismod.
+</p>
+
+<p>
+Nunc feugiat felis eget est molestie ullamcorper.
+Aenean luctus pulvinar mi sit amet vestibulum.
+Duis turpis dui, tempor ut leo sed, ultrices sollicitudin ligula.
+Curabitur lacinia lectus ipsum, sed semper neque tempor non.
+Aliquam tincidunt mi risus, mollis mollis ligula posuere sit amet.
+Sed non porta libero, sit amet tristique arcu.
+Duis efficitur urna neque, eu blandit leo tincidunt in.
+Aliquam erat volutpat.
+Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+Nulla molestie ligula a convallis placerat.
+Vivamus auctor urna a ligula vulputate, vel malesuada nunc blandit.
+</p>
+
+<p>
+Etiam sed tempus ante.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Aenean libero risus, posuere a tortor at, semper bibendum augue.
+Cras varius libero vel turpis iaculis, vitae convallis odio egestas.
+Morbi vitae ante ligula.
+Sed ut velit a arcu ullamcorper consequat non et felis.
+Praesent ac faucibus libero.
+</p>
+
+<p>
+Quisque laoreet mi quis gravida cursus.
+Sed ut purus sollicitudin, molestie justo eu, maximus dolor.
+Pellentesque facilisis efficitur lacus a accumsan.
+Donec placerat fringilla erat feugiat varius.
+Duis sed diam vel ante vehicula finibus in eget odio.
+Pellentesque vulputate elementum rutrum.
+Sed aliquet est id mollis ultrices.
+Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+Donec auctor, tortor imperdiet tincidunt imperdiet, ipsum lacus vestibulum nunc,
+ut rutrum sapien justo in lectus.
+Nullam pharetra dictum lorem.
+Donec bibendum quis purus ut pulvinar.
+Suspendisse sagittis augue a mauris egestas, eget egestas sem rutrum.
+</p>
+
+<p>
+Donec at ligula semper sapien suscipit semper quis nec massa.
+Curabitur quis justo maximus, venenatis lectus mattis, varius lectus.
+Curabitur maximus pellentesque rhoncus.
+Nunc vel dui diam.
+Sed rutrum eros quis mauris vehicula, non consequat felis sollicitudin.
+Donec tempus ultrices elit, vitae imperdiet tellus consectetur a.
+Nunc efficitur nec massa ut luctus.
+Vestibulum ut nibh scelerisque, mollis est non, dapibus arcu.
+Donec sollicitudin mollis fermentum.
+</p>
+
+</section>
+
+<footer footer><span page_number></span></footer>
+
+</div>
+
+<div page portrait>
+
+<section content>
+
+<h2>
+Chapter 2
+</h2>
+
+<p>
+Vestibulum dui dolor, interdum at laoreet id, convallis a ligula.
+Donec a aliquam mi.
+Proin arcu risus, porttitor sed cursus quis, dictum sodales lacus.
+Nam vel nunc eu diam fermentum molestie a vitae tortor.
+Nam varius purus sit amet efficitur iaculis.
+Pellentesque ultricies, justo lacinia consequat ultrices,
+eros urna lobortis justo, nec lobortis lectus justo sit amet nisi.
+Pellentesque tristique odio tristique nunc pulvinar, nec dignissim ligula lacinia.
+Curabitur placerat tristique elit auctor porttitor.
+In vel nunc a metus pellentesque eleifend.
+Sed interdum porta urna id lobortis.
+Donec faucibus nisl non arcu gravida rutrum.
+Nulla ac lorem sed mi pretium finibus ut vel nibh.
+</p>
+
+<p>
+Phasellus nec dui turpis.
+Suspendisse nec venenatis diam, non rhoncus eros.
+Integer elementum scelerisque ipsum, nec dapibus eros eleifend a.
+Sed id eros arcu.
+Sed massa dui, sodales non tristique et, dapibus eu sapien.
+Nunc eget nibh erat.
+Donec est metus, iaculis vel malesuada eget, semper at orci.
+Nunc feugiat efficitur lobortis.
+Maecenas egestas viverra diam, vel feugiat libero varius id.
+Pellentesque malesuada lectus eleifend maximus maximus.
+Nam egestas ipsum euismod nibh sagittis, a ultricies mauris auctor.
+Morbi non lectus ornare, sodales nibh ac, facilisis libero.
+Duis pulvinar facilisis orci, ut pellentesque purus.
+Nam aliquam volutpat orci vitae ullamcorper.
+Integer porttitor nisl eu urna tempor feugiat.
+</p>
+
+<p>
+Fusce in pulvinar tellus, a iaculis velit.
+Nulla facilisi.
+Morbi suscipit sapien vel sodales finibus.
+Curabitur ultrices massa semper massa mollis vulputate.
+Nunc iaculis, tellus eget tempus suscipit,
+nibh ante ullamcorper quam, id fermentum magna mi eget augue.
+Pellentesque luctus libero massa, sed porttitor dui volutpat at.
+Nulla facilisi.
+In hac habitasse platea dictumst.
+</p>
+
+<p>
+Curabitur nisl massa, fringilla ac dui eu, eleifend facilisis neque.
+Donec fermentum felis ut magna pharetra, et vestibulum justo facilisis.
+Aliquam non facilisis orci, id pharetra dui.
+Sed ut sodales urna.
+In facilisis ullamcorper ex, quis blandit nisl.
+Quisque quis velit eget eros condimentum consectetur.
+Duis tincidunt pharetra interdum.
+Duis quis massa sit amet lorem dictum ultrices eu et mauris.
+Curabitur vitae viverra ipsum.
+Nunc at magna nec augue pulvinar viverra.
+</p>
+
+<p>
+Phasellus pretium lorem hendrerit est eleifend, eu euismod ante eleifend.
+Vivamus tempus quis neque id malesuada.
+Cras id nulla est.
+Pellentesque ut odio ut est tempus tristique at in augue.
+Vestibulum eget suscipit nisi.
+Donec blandit arcu quis felis scelerisque sodales.
+Cras posuere vel ex eget gravida.
+Nunc consequat velit nisi, finibus feugiat nisi accumsan vel.
+Maecenas consequat quis arcu eget vestibulum.
+Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+Curabitur tincidunt nisl a dui dictum aliquam.
+Curabitur at lectus erat.
+</p>
+
+<p>
+Quisque volutpat aliquet ex, interdum posuere nisl pulvinar vitae.
+Sed volutpat lectus vitae mauris scelerisque pharetra.
+Etiam accumsan justo ac condimentum aliquet.
+Cras dictum ligula a nisl posuere, hendrerit tincidunt ligula molestie.
+Maecenas lobortis ex vel erat euismod, et condimentum arcu fringilla.
+Donec consequat sem in mi tristique rhoncus.
+Nulla suscipit a nibh a finibus.
+Donec id lectus odio.
+Integer quis vulputate eros.
+Nam ac ligula egestas lacus commodo condimentum a vitae turpis.
+Vestibulum id tortor orci.
+Maecenas quis rutrum mauris.
+Pellentesque laoreet arcu nec tincidunt blandit.
+Integer a ante vel metus mollis lobortis.
+</p>
+
+</section>
+
+<footer footer><span page_number></span></footer>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

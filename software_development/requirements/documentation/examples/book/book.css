@@ -1,0 +1,60 @@
+@import "book_displayed.css" screen;
+@import "book_printed.css" print;
+
+:root
+{
+    --book_page_size: a4;
+    --book_page_size_long: 297mm;
+    --book_page_size_short: 210mm;
+    --book_page_indent_long: 10mm;
+    --book_page_indent_short: 10mm;
+}
+
+/*page does not inherit from root, so variables have to be repeated*/
+@page
+{
+    --book_page_size: a4;
+    --book_page_size_long: 297mm;
+    --book_page_size_short: 210mm;
+    --book_page_indent_long: 10mm;
+    --book_page_indent_short: 40mm;
+}
+
+div[page]:not([portrait]):not([landscape])
+{
+    --book_page_size_vertical: var(--book_page_size_long);
+    --book_page_size_horizontal: var(--book_page_size_short);
+    --book_page_indent_vertical: var(--book_page_indent_long);
+    --book_page_indent_horizontal: var(--book_page_indent_short);
+}
+
+div[page][portrait]
+{
+    --book_page_size_vertical: var(--book_page_size_long);
+    --book_page_size_horizontal: var(--book_page_size_short);
+    --book_page_indent_vertical: var(--book_page_indent_long);
+    --book_page_indent_horizontal: var(--book_page_indent_short);
+}
+
+div[page][landscape]
+{
+    --book_page_size_vertical: var(--book_page_size_short);
+    --book_page_size_horizontal: var(--book_page_size_long);
+    --book_page_indent_vertical: var(--book_page_indent_short);
+    --book_page_indent_horizontal: var(--book_page_indent_long);
+}
+
+div[book]
+{
+    counter-reset: book_page_number;
+}
+
+div[page]
+{
+    counter-increment: book_page_number;
+}
+
+[page_number]::before
+{
+    content: counter(book_page_number);
+}

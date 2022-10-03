@@ -1,0 +1,163 @@
+h2
+{
+    text-align: center;
+}
+
+h4
+{
+    margin: 0;
+    text-indent: 4ch;
+}
+
+p
+{
+    margin: 0;
+    text-align: justify;
+    text-indent: 4ch;
+    line-height: 1.25;
+}
+
+p[continue]
+{
+    text-indent: 0;
+}
+
+[indent]
+{
+    margin-inline-start: 4ch;
+    margin-inline-end: 4ch;
+}
+
+a[reference]
+{
+    color: inherit;
+}
+
+header[cover]
+{
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+header[cover] > h1,
+header[cover] > h2,
+header[cover] > h3,
+header[cover] > h4,
+header[cover] > h5,
+header[cover] > h6
+{
+    margin: 0;
+}
+
+header[cover] > h1[title]
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    width: 20em;
+    text-align: center;
+}
+
+header[cover] > h3[author]
+{
+    position: absolute;
+    top: 66%;
+    right: 6rem;
+    transform: translateY(-50%);
+    width: 14em;
+    text-align: right;
+}
+
+header[cover] > h3[date]
+{
+    position: absolute;
+    bottom: 4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14em;
+    text-align: center;
+}
+
+h3[author]
+{
+    color: var(--theme_color_secondary);
+}
+
+[leaders]
+{
+    color: var(--theme_color_secondary);
+}
+
+ol[contents]
+{
+    padding: 0;
+}
+
+ol[contents] ol
+{
+    padding-inline-start: 4ch;
+}
+
+ol[contents] li > a
+{
+    display: grid;
+    grid-template-columns: auto max-content;
+    align-items: end;
+}
+
+ol[contents] li > a > [text]
+{
+    position: relative;
+    overflow: hidden;
+}
+
+ol[contents] li > a [leaders]::after
+{
+    position: absolute;
+    text-align: right;
+    padding-inline-start: .25ch;
+    content: " "
+    ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ";
+}
+
+ol[contents] li > a > [number]
+{
+    min-width: 2ch;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+ol[contents], ol[contents] ol
+{
+    list-style-type: none;
+}
+
+ol[contents] a,
+ol[contents] a:visited
+{
+    text-decoration: none;
+    color: inherit;
+}
+
+[page_number]
+{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: var(--book_page_indent_horizontal);
+    width: 2em;
+    text-align: right;
+}
+
+[page_number]
+{
+    color: var(--theme_color_secondary);
+}

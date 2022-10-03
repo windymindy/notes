@@ -1,0 +1,29 @@
+@import "chromium/chromium/cr_elements/cr_shared_vars.css";
+@import "chromium/chromium/css/md_colors.css";
+@import "chromium/chromium/css/text_defaults_md.css";
+
+:root
+{
+    --theme_color_primary: var(--cr-primary-text-color);
+    --theme_color_secondary: var(--cr-secondary-text-color);
+    --theme_background_color_content: var(--cr-card-background-color);
+    --theme_shadow_content: var(--cr-card-shadow);
+    --theme_border_radius_content: var(--cr-card-border-radius);
+}
+
+html
+{
+    background-color: var(--md-background-color);
+}
+
+body
+{
+    color: var(--cr-primary-text-color);
+}
+
+hr
+{
+    border: none;
+    border-bottom: var(--cr-separator-line);
+    /*margin: 6px 0 0 0;*/
+}

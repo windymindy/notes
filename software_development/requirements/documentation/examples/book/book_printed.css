@@ -1,0 +1,93 @@
+html, body
+{
+    height: 100%;
+}
+
+body
+{
+    margin: 0;
+}
+
+div[book], div[page]
+{
+    height: 100%;
+}
+
+@page
+{
+    margin: 0;
+}
+
+div[page]:not([portrait]):not([landscape])
+{
+    page: book_page_portrait;
+}
+
+div[page][portrait]
+{
+    page: book_page_portrait;
+}
+
+div[page][landscape]
+{
+    page: book_page_landscape;
+}
+
+@page book_page_portrait
+{
+    size: var(--book_page_size) portrait;
+}
+
+@page book_page_landscape
+{
+    size: var(--book_page_size) landscape;
+}
+
+div[page]
+{
+    break-before: page;
+    break-inside: avoid;
+    break-after:  avoid;
+    overflow: hidden;
+}
+
+div[page]
+{
+    position: relative;
+}
+
+div[page] > [header]
+{
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--book_page_indent_vertical);
+    overflow: hidden;
+}
+
+div[page] > [content]
+{
+    position: absolute;
+    top: var(--book_page_indent_vertical);
+    bottom: var(--book_page_indent_vertical);
+    left: var(--book_page_indent_horizontal);
+    right: var(--book_page_indent_horizontal);
+    overflow: hidden;
+}
+
+div[page] > [footer]
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--book_page_indent_vertical);
+    overflow: hidden;
+}
+
+:root
+{
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+}

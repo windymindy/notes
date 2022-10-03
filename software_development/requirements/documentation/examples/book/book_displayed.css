@@ -1,0 +1,92 @@
+html, body
+{
+    height: 100%;
+}
+
+body
+{
+    margin: 0;
+}
+
+body
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    overflow-y: hidden;
+}
+
+div[book]
+{
+    display: grid;
+    grid-template-columns: auto;
+    /*grid-template-columns: auto auto;*/
+    align-content: flex-start;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    overflow-y: auto;
+    scrollbar-gutter: stable both-edges;
+}
+
+div[page]
+{
+    height: var(--book_page_size_vertical);
+    width: var(--book_page_size_horizontal);
+}
+
+div[book]
+{
+    row-gap: 1rem;
+    column-gap: 1rem;
+    padding: 1rem;
+}
+
+div[page]
+{
+    break-before: page;
+    break-inside: avoid;
+    break-after:  avoid;
+    overflow: hidden;
+}
+
+div[page]
+{
+    position: relative;
+}
+
+div[page] > [header]
+{
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--book_page_indent_vertical);
+    overflow: hidden;
+}
+
+div[page] > [content]
+{
+    position: absolute;
+    top: var(--book_page_indent_vertical);
+    bottom: var(--book_page_indent_vertical);
+    left: var(--book_page_indent_horizontal);
+    right: var(--book_page_indent_horizontal);
+    overflow: hidden;
+}
+
+div[page] > [footer]
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--book_page_indent_vertical);
+    overflow: hidden;
+}
+
+div[page]
+{
+    background-color: var(--theme_background_color_content);
+    box-shadow: var(--theme_shadow_content);
+}

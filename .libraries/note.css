@@ -1,0 +1,158 @@
+html, body
+{
+    height: 100%;
+}
+
+body
+{
+    margin: 0;
+}
+
+body
+{
+    display: grid;
+    grid-template-columns:
+        [fill_left] 1fr
+        [fill_navigation] 0.5fr
+        [note] max-content
+        [navigation] minmax(10ch, 0.5fr)
+        [fill_right] 1fr;
+    align-content: stretch;
+    align-items: start;
+    justify-content: stretch;
+    justify-items: stretch;
+    overflow-y: hidden;
+}
+
+div[note]
+{
+    grid-column: note;
+    grid-row: 1;
+    align-self: stretch;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    overflow-y: auto;
+    scrollbar-gutter: stable both-edges;
+}
+
+div[note] > [content]
+{
+    flex-grow: 1;
+    width: 100ch;
+}
+
+section[content]
+{
+    margin: 1rem;
+    padding: 1rem;
+    background-color: var(--theme_background_color_content);
+    box-shadow: var(--theme_shadow_content);
+    border-radius: var(--theme_border_radius_content);
+}
+
+div[navigation]
+{
+    grid-column: navigation;
+    grid-row: 1;
+    align-self: stretch;
+    position: relative;
+    display: grid;
+    grid-template-rows:
+        [repository] minmax(4rem, max-content)
+        [fill_center] 1fr
+        [directory] minmax(4rem, max-content);
+    align-content: stretch;
+    align-items: start;
+    justify-content: stretch;
+    justify-items: stretch;
+}
+
+div[navigation] > [repository]
+{
+    grid-row: repository;
+    grid-column: 1;
+    align-self: start;
+}
+
+div[navigation] > [directory]
+{
+    grid-row: directory;
+    grid-column: 1;
+    align-self: end;
+}
+div[navigation]
+{
+    user-select: none;
+}
+
+nav[repository]
+{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+nav[directory]
+{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+div[navigation] a
+{
+    display: block;
+    color: var(--theme_color_secondary);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+div[navigation] [icon]
+{
+    font-size: 2rem;
+}
+
+div[navigation] [text]
+{
+    font-size: 1.25rem;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+    margin: 0;
+}
+
+hr
+{
+    margin: 0;
+}
+
+[indent]
+{
+    margin-inline-start: 4ch;
+    margin-inline-end: 4ch;
+}
+
+a[reference]
+{
+    color: inherit;
+}
+
+a[link]
+{
+    color: inherit;
+    text-decoration: none;
+}
+
+[icon]
+{
+    display: inline-block;
+    min-width: 2rem;
+    font-size: 2rem;
+    padding-inline: 0.25ch;
+    line-height: 1;
+    text-align: center;
+}

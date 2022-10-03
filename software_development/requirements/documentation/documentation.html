@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>
+Documentation format
+</title>
+
+<meta name="description" content="Requirements for a documentation format and tools.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="color-scheme" content="dark light">
+
+<link rel="stylesheet" href="../../../.libraries/theme.css">
+<link rel="stylesheet" href="../../../.libraries/note.css">
+
+</head>
+
+<body>
+
+<div note>
+
+<section content>
+
+Hereby the choice of a
+<a href="https://en.wikipedia.org/wiki/Formatted_text" reference>
+format</a> for
+<a href="https://en.wikipedia.org/wiki/Document_file_format" reference>
+documents</a> of all kinds and related tools is considered.<br>
+
+<br>
+
+<h2 id="requirements">
+<a href="#requirements" link>
+Requirements
+</a>
+</h2>
+<hr>
+
+<br>
+
+<h3>
+File format type, interaction paradigm
+</h3>
+
+<br>
+
+<h4>
+Text files as opposed to binary files
+</h4>
+
+Files are mandatory to be text.
+Sources must be human readable and suitable for version control practices.
+It should be easy to convey full text searchs with the regular tools.<br>
+
+<br>
+
+<h4>
+<a href="https://en.wikipedia.org/wiki/WYSIWYM" reference>
+WYSIWYM</a> versus
+<a href="https://en.wikipedia.org/wiki/WYSIWYG" reference>
+WYSIWYG</a>
+</h4>
+
+It is of the essence to provide<br>
+<div indent>
+    scalability,<br>
+    structure control,<br>
+    consistency,<br>
+    content and presentation separation<br>
+</div>
+even at the cost of complexity.<br>
+
+<br>
+
+<h3>
+Media and multimedia types
+</h3>
+
+<br>
+
+<h4>
+Print and digital media
+</h4>
+
+Various electronic devices support should be provided for:
+desktop, laptops, smartphones, book readers.<br>
+
+All the content forms of text documents,
+<a href="https://en.wikipedia.org/wiki/Pagination" reference>
+presentations, books</a>, interactive applications should be possible to express.<br>
+
+<br>
+
+<h4>
+Interoperability, compatibility, portability
+</h4>
+For the cases when a document is handed over to an uncontrolled domain with its own requirements,
+convertibility must be ensured.
+Conversion tools,
+such as <a href="https://pandoc.org/" reference>pandoc</a> or others,
+are to be utilized.
+There is always an "output format" that suits: PDF, Word, HTML...<br>
+
+<br>
+
+<h3 id="features">
+<a href="#features" link>
+Features
+</a>
+</h3>
+
+<br>
+
+The format and the tools require support for:<br>
+<div indent>
+    inclusion of:<br>
+    <div indent>
+        fragments and components;<br>
+        images, diagrams, videos...; —<br>
+    </div>
+    references, including inter and cross;<br>
+    stylization:<br>
+    <div indent>
+        fonts, including custom ones;<br>
+        coloring; —<br>
+    </div>
+    layouting:<br>
+    <div indent>
+        floating and anchoring,<br>
+        columns; —<br>
+    </div>
+    alignment;<br>
+    indentation and line breaking.<br>
+</div>
+
+<br>
+
+Fragment inclusion facilitates reuse of artifacts.
+Splitting documents into components eases comprehension.<br>
+
+<br>
+
+Text should allow for center and left alignment.
+Justification
+<a href="https://designforhackers.com/blog/justify-text-html-css/" reference>might</a>
+<a href="https://jkorpela.fi/www/justify.html" reference>not be recommended</a>,
+but is still a hard requirement for some organizations.<br>
+
+<br>
+
+There are several indentation scenarios that suppose control over
+how text is written versus how it is rendered.
+Some sources want lines to break on sentences according to their meaning while
+still grouping into paragraphs, aligning and indenting them automatically.
+Sometimes all line breaks and spaces are to be preserved as written,
+such as for addresses or code snippets.<br>
+
+<br>
+
+<h3>
+Spread
+</h3>
+Display software and tools should be easily obtainable or available by default.
+Viewing documents offline is required.
+The format must be standardized and supported.<br>
+
+<br>
+
+<h2 id="alternatives">
+<a href="#alternatives" link>
+Alternatives
+</a>
+</h2>
+<hr>
+
+<br>
+
+<h3>
+Word, Writer
+</h3>
+WYSIWYG. Binary.<br>
+
+<br>
+
+<h3>
+Lightweight markup languages, Markdown
+</h3>
+
+<br>
+
+Markdown is quite popular and
+<a href="https://en.wikipedia.org/wiki/Markdown" reference>widely used</a>
+for writing documentation, readmes, blogs, books...
+It captivates with its simplicity is the default choice for many.<br>
+Most
+<a href="https://ericholscher.com/blog/2016/mar/15/dont-use-markdown-for-technical-docs/"
+    reference>
+criticism<a>
+<a href="https://stymied.medium.com/why-you-should-and-should-not-use-markdown-1b9d70987792"
+    reference>
+comes down</a> to weak semantics, lack of scalability and extensibility,
+absence of the unified specification and split into multitudes of dialects.
+There is no native stylization, not even basic alignment.
+For these means it fallbacks for HTML and CSS.<br>
+
+<br>
+
+There
+<a href="https://en.wikipedia.org/wiki/Lightweight_markup_language" reference>
+are</a> also many
+<a href="https://github.com/github/markup#markups" reference>
+clone</a>
+<a href="https://hyperpolyglot.org/lightweight-markup" reference>
+formats</a>.
+They try and come up with specifications and different syntax details.<br>
+
+<br>
+
+<u>reStructuredText</u>, for instance, has more features,
+implements elaborate indentation rules and
+provides an extension interface.
+But it offers weird Setext headings which makes
+<a href="https://stackoverflow.com/questions/33149169" reference>
+interleaving</a> them impossible and
+demand you to match the underline adornment length.
+It also provides no control over reference URLs for inline targets.
+And so on...<br>
+
+<br>
+
+<u>AsciiDoc</u>. Again, what are some real advantages over Markdown?<br>
+
+<a href="https://commonmark.org/" reference>
+CommonMark</a><br>
+<a href="https://pandoc.org/MANUAL.html#pandocs-markdown" reference>
+Pandoc’s Markdown</a><br>
+<a href="https://github.com/senselogic/PENDOWN" reference>
+Pendown</a><br>
+
+<br>
+
+<h3>
+HTML, CSS and JS
+</h3>
+
+<br>
+
+A web browser is advanced software.
+A lot of effort is put into its development.
+And what is more important is that everyone has one.<br>
+
+<br>
+
+The content is written in
+<a href="https://www.w3.org/wiki/The_web_standards_model_-_HTML_CSS_and_JavaScript" reference>
+HTML, CSS and JS</a> languages which provide almost unlimited capabilities.
+They are far from ideal.
+They are just the most common overall due to the ubiquity of the web technologies.
+Every conceivable design aspect is achievable with HTML and CSS.
+Dark and light color schemes are toggleable.
+One can even set the system font to be the default in his browser.
+And if anything is not there, just resort to JavaScript and implement it.<br>
+
+<br>
+
+Browsers are suitable for viewing documents from the file system with
+limitation that JS requests to local files are blocked.
+They can even save online pages for offline use.
+Too bad, none of them support picking up CSS imports from other CSS files.<br>
+
+<br>
+
+Reuse of sources is poor: HTML by itself does not follow the DRY principle.
+Inclusion of local documents is, again, restricted for security reasons.
+Though the core component model of breaking down into separate artifacts is well worked out.<br>
+
+<br>
+
+Full control over indentation and spacing enables choosing how
+the content behaves on selection and copying.
+In-content spaces and line breaks can be both
+inserted manually, just like in plain text,
+or collapsed automatically.
+Entire blocks can be indented as well without displaying any spacing symbols.
+And just like a web application markup indents elements hierarchically
+based on semantics and layout,
+documentation is free to focus on the content and treat everything else as service entities.<br>
+
+<br>
+
+Speaking of support for various devices, the EPUB book format, for example, uses XHTML.<br>
+
+<br>
+
+<h3>
+TeX
+</h3>
+
+<br>
+
+A distinctive feature of <u>TeX</u> is its advance typesetting.
+The popularity of this option is not so wide.
+But this may be the only pick for some publishers.<br>
+
+<br>
+
+There are
+<a href="https://www.overleaf.com/learn/latex/Articles/
+The_TeX_family_tree%3A_LaTeX%2C_pdfTeX%2C_XeTeX%2C_LuaTeX_and_ConTeXt" reference>
+many</a>
+<a href="https://www.overleaf.com/learn/latex/Articles/
+What%27s_in_a_Name:_A_Guide_to_the_Many_Flavours_of_TeX" reference>
+flavours</a>,
+<u>LaTeX</u>
+<a href="https://tex.stackexchange.com/questions/223177" reference>
+and</a>
+<a href="https://github.com/contextgarden/not-so-short-introduction-to-context" reference>
+ConTeXt</a> being the main ones.
+The manuals are
+<a href="https://texfaq.org/" reference>well</a>
+<a href="https://wiki.contextgarden.net/Main_Page" reference>available</a>.<br>
+
+<br>
+
+<h3>
+Documentation engines
+</h3>
+Some enterprises adhere to the convention of building
+documentation processes around specialized software.
+<a href="https://en.wikipedia.org/wiki/List_of_wiki_software" reference>
+Wikis</a>, other different
+<a href="https://en.wikipedia.org/wiki/Comparison_of_documentation_generators" reference>
+engines</a>,
+knowledgebases, like
+<a href="https://en.wikipedia.org/wiki/Confluence_(software)" reference>
+Confluence</a> and
+<a href="https://www.redmine.org/" reference>
+Redmine</a>,
+<a href="https://github.com/docsifyjs/docsify" reference>
+docsify</a>,
+<a href="https://readthedocs.org" reference>
+Read the Docs</a> and many many others.<br>
+
+<br>
+
+<h2 id="conclusion">
+<a href="#conclusion" link>
+Conclusion
+</a>
+</h2>
+<hr>
+
+It seems like the best compromise would be to just give up on some of the requirements and
+simply opt in for Markdown. You will be on the same page with the most developers.
+And if you cant drop them and Markdown does not suffice, well,
+HTML, CSS and JS are not going anywhere.
+If you really dont feel like maintaining <i>n</i> meta tags across <i>m</i> documents,
+an intermidiate static generator might help you.
+And of course, the most interesting solution would be to
+<a href="https://casual-effects.com/markdeep/" reference>
+embed</a> Markdown into HTML.
+Just need to pick up a JS
+<a href="https://www.w3.org/community/markdown/wiki/MarkdownImplementations" reference>
+implementation</a> of a right
+<a href="https://css-tricks.com/choosing-right-markdown-parser/" reference>
+flavour</a>, that is more or less specified.<br>
+
+</section>
+
+</div>
+
+<div navigation>
+<nav directory>
+<a href="."><span icon>🗀 .</span></a>
+</nav>
+</div>
+
+</body>
+
+</html>
