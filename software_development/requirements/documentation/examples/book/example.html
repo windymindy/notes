@@ -99,13 +99,13 @@ list</a> of the features and their support status.<br>
 </p>
 
 <p>
-But overall interraction model is not straightforward either.
+But overall interaction model is not straightforward either.
 In browsers most of the style rules have no effect by default.
 They only kick in when invoking the printing dialog or converting into PDF in the headless mode.
-Another option is to force print media emulation in developer's tools,
-which does not even draw page rectangles.
-And there are options, like preserving background colors,
-that want to be clicked manually.
+Another option is to force print media emulation in developer's tools, which
+does not even draw page rectangles.
+And there are options, like preserving background colors, that
+want to be clicked manually.
 Paged.js emulates print media features and displays content as a book directly.
 But it would be perfect if there was a meta tag option that
 would tell browsers to turn into a book reader.
@@ -114,15 +114,15 @@ would tell browsers to turn into a book reader.
 <p>
 This example marks up every page manually.
 There is no easy way to emulate print media with automatic page breaks.
-Firstly, the CSS regions module,
-which would be very handy for flowing content through the emulated pages,
+Firstly, the CSS regions module, which
+would be very handy for flowing content through the emulated pages,
 is not yet available.
 Secondly, the task of inferring content size correctly and reliably is tedious and
 Google Docs worthy.
 Well, placing tags for every page manually so that
 its content has a container that facilitates emulation
-is also tiresome,
-especially when a picture or a table has to be split between, but straight and explicit.
+is also tiresome, especially when
+a picture or a table has to be split between, but straight and explicit.
 </p>
 
 <p>
