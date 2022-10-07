@@ -1,0 +1,35 @@
+@font-face
+{
+    font-family: Roboto Flex;
+    font-style: oblique -10deg 0deg;
+    font-weight: 100 1000;
+    font-stretch: 25% 151%;
+    src:
+        local("Roboto Flex"), local("Roboto-Flex"),
+        url(RobotoFlex[GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght].ttf);
+    font-display: block;
+}
+
+@font-face
+{
+    font-family: Roboto Mono;
+    font-style: normal;
+    font-weight: 100 700;
+    font-stretch: 100%;
+    src:
+        local("Roboto Mono"), local("Roboto-Mono"),
+        url(RobotoMono-VariableFont_wght.ttf);
+    font-display: block;
+}
+
+@font-face
+{
+    font-family: Roboto Mono;
+    font-style: italic;
+    font-weight: 100 700;
+    font-stretch: 100%;
+    src:
+        local("Roboto Mono Italic"), local("Roboto-Mono-Italic"),
+        url(RobotoMono-Italic-VariableFont_wght.ttf);
+    font-display: block;
+}

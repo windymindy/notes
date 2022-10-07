@@ -10,7 +10,7 @@ properties.
 These web components should avoid the use of chrome.send and should generally
 avoid dependencies on extension APIs as well.
 
-TODO(dpapad): Audit elements currently using chrome.settingsPrivate and decide whether to move these or update the
-guidelines.
+TODO(dpapad): Audit elements currently using chrome.settingsPrivate and
+decide whether to move these or update the guidelines.
 
 For more complex components, see cr_components.

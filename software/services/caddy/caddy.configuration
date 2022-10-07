@@ -1,0 +1,57 @@
+{
+
+    log default {
+        output stdout
+        #level info
+        #exclude http.log.access
+    }
+
+    log default_file {
+        output file ./logs/caddy.log {
+            roll_size 10mb
+            roll_keep 10
+            roll_keep_for 10d
+        }
+        #level info
+        exclude http.log.access
+    }
+
+    log access_file {
+        output file ./logs/caddy_access.log {
+            roll_size 10mb
+            roll_keep 10
+            roll_keep_for 10d
+        }
+        #level info
+        include http.log.access
+    }
+
+    auto_https off
+
+    admin off
+
+}
+
+:443 {
+
+    log
+
+    tls ./tls/replace_key.crt ./tls/replace_key.key
+
+    root ./content/
+
+    encode gzip zstd
+
+    try_files {path}.html {path}
+
+    file_server browse
+
+    import ./configuration/*.caddy
+
+}
+
+:80 {
+    redir https://{host}{uri}
+}
+
+import ./configuration/*.caddy.configuration

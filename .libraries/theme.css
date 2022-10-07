@@ -1,14 +1,23 @@
 @import "chromium/chromium/cr_elements/cr_shared_vars.css";
+@import "chromium/chromium/cr_elements/mwb_shared_vars.css";
+@import "chromium/chromium/cr_elements/mwb_shared_style.css";
+@import "chromium/chromium/cr_elements/cr_input/cr_input_style.css";
 @import "chromium/chromium/css/md_colors.css";
-@import "chromium/chromium/css/text_defaults_md.css";
+
+@import "roboto/roboto.css";
 
 :root
 {
     --theme_color_primary: var(--cr-primary-text-color);
     --theme_color_secondary: var(--cr-secondary-text-color);
+    --theme_color_input: var(--cr-input-color);
+    --theme_background_color: var(--md-background-color);
     --theme_background_color_content: var(--cr-card-background-color);
+    --theme_background_color_input: var(--cr-input-background-color);
+    --theme_background_color_selection: var(--cr-active-background-color);
     --theme_shadow_content: var(--cr-card-shadow);
     --theme_border_radius_content: var(--cr-card-border-radius);
+    --theme_border_radius_input: var(--cr-input-border-radius);
 }
 
 html
@@ -21,9 +30,35 @@ body
     color: var(--cr-primary-text-color);
 }
 
+::selection
+{
+    background-color: var(--cr-active-background-color);
+}
+
+:root
+{
+    scrollbar-width: thin;
+    scrollbar-color: var(--mwb-scrollbar-thumb-color) var(--mwb-scrollbar-track-color);
+}
+
+div
+{
+    scrollbar-width: thin;
+}
+
 hr
 {
     border: none;
     border-bottom: var(--cr-separator-line);
     /*margin: 6px 0 0 0;*/
+}
+
+body
+{
+    font-family: Roboto Flex, sans-serif;
+}
+
+pre, code
+{
+    font-family: Roboto Mono, monospace;
 }

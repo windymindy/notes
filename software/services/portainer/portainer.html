@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>
+Portainer
+</title>
+
+<meta name="description" content="Portainer.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="color-scheme" content="dark light">
+
+<link rel="stylesheet" href="../../../.libraries/theme.css">
+<link rel="stylesheet" href="../../../.libraries/note.css">
+
+<link rel="stylesheet" href="../../../.libraries/prism/prism.css">
+<script src="../../../.libraries/prism/prism.js"></script>
+
+</head>
+
+<body>
+
+<div note>
+
+<section content>
+
+<h2>
+Portainer
+</h2>
+<hr>
+
+<br>
+
+Using the
+<a href="https://hub.docker.com/r/portainer/portainer-ce" reference>
+Portainer<a> container management platform as a graphical user interface for Docker.<br>
+
+<br>
+
+Specify the data directory
+<code class="language-bash token variable">replace_data_directory</code>.<br>
+Choose a container name
+<code class="language-bash token variable">replace_container</code> and
+a volume name
+<code class="language-bash token variable">replace_volume</code>.<br>
+No container ports are published, so specify the network
+<code class="language-bash token variable">replace_network</code>
+defined to serve behind a reverse proxy.<br>
+
+<br>
+
+Create the directory and the volume.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="2, 6, 9"
+>
+<code>
+
+data_directory="replace_data_directory" # data_directory=/data/services
+
+container=replace_container # container=portainer
+volume=replace_volume # volume=portainer
+network=replace_network # network=services
+
+sudo mkdir --parents "$data_directory/portainer"
+sudo chmod --recursive a+rwX "$data_directory/portainer/"
+
+docker volume create \
+<span indent>--name $volume \
+--driver local-persist \
+--opt mountpoint="$data_directory/portainer/"</span>
+
+</code>
+</pre>
+
+<br>
+
+Configure the reverse proxy.
+Put the
+<a href="portainer.caddy" reference>
+configuration</a> file to the web server directory.
+Set the Portainer hostname
+<code class="language-bash token variable">replace_container</code>
+in the configuration file to forward requests to the container.
+Apply the web server configuration.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="2, 4"
+>
+<code>
+
+container_caddy=replace_container_caddy # container_caddy=caddy
+
+cp portainer.caddy "$data_directory/caddy/configuration/"
+
+docker container restart $container_caddy
+
+</code>
+</pre>
+
+<br>
+
+Start the container.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+>
+<code>
+
+docker run --detach --restart unless-stopped \
+<span indent>--name $container \
+--hostname $container \
+--network $network \
+--mount type=volume,source=$volume,destination=/data \
+--mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock \
+--mount type=bind,source=/etc/timezone,destination=/etc/timezone,readonly \
+--mount type=bind,source=/etc/localtime,destination=/etc/localtime,readonly \
+portainer/portainer-ce \
+--host unix:///var/run/docker.sock</span>
+
+</code>
+</pre>
+
+<br>
+
+Access the site at the /portainer path and perform configurations.<br>
+
+<br>
+
+Users<br>
+replace_login<br>
+Change user password<br>
+<br>
+Settings<br>
+<br>
+Allow the collection of anonymous statistics<br>
+<br>
+Authentication<br>
+Session lifetime<br>
+
+</section>
+
+</div>
+
+<div navigation>
+<nav directory>
+<a href="."><span icon>🗀 .</span></a>
+</nav>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>
+Docker
+</title>
+
+<meta name="description" content="Docker.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="color-scheme" content="dark light">
+
+<link rel="stylesheet" href="../../.libraries/theme.css">
+<link rel="stylesheet" href="../../.libraries/note.css">
+
+<link rel="stylesheet" href="../../.libraries/prism/prism.css">
+<script src="../../.libraries/prism/prism.js"></script>
+
+</head>
+
+<body>
+
+<div note>
+
+<section content>
+
+<h2>
+Install and configure Docker for use on a single machine.
+</h2>
+<hr>
+
+<br>
+
+Start with the
+<a href="https://docs.docker.com/engine/install/ubuntu/" reference>
+official installation guide</a>.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="3, 8, 16"
+>
+<code>
+
+sudo apt update
+sudo apt install curl
+
+sudo mkdir --parents /etc/apt/keyrings
+curl --show-error --fail --silent \
+<span indent>--location https://download.docker.com/linux/ubuntu/gpg | \
+sudo gpg --dearmor --output /etc/apt/keyrings/docker.gpg</span>
+
+echo "\
+<span indent>deb \
+[arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) stable\
+" | \
+sudo tee /etc/apt/sources.list.d/docker.list > /dev/null</span>
+
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io
+
+</code>
+</pre>
+
+<br>
+
+Stop Docker and
+<a href="https://docs.docker.com/engine/install/linux-postinstall/" reference>
+configure</a>.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="4"
+>
+<code>
+
+sudo systemctl stop docker.service
+sudo systemctl stop docker.socket
+sudo systemctl stop containerd.service
+
+sudo touch /etc/docker/daemon.json
+
+</code>
+</pre>
+
+<br>
+
+Put Docker data into a separate storage device.
+Specify the
+<code class="language-bash token variable">replace_data_directory</code>
+directory according to your setup.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-output="2, 5-10, 12-14"
+>
+<code>
+
+data_directory="replace_data_directory" # data_directory=/data/services
+
+sudo mkdir --parents "$data_directory"
+sudo chmod --recursive a+rwX "$data_directory/" # decide on your permissions
+
+# edit /etc/docker/daemon.json
+{
+    "data-root": "replace_data_directory/docker"
+}
+
+sudo mv /var/lib/docker/ "$data_directory/"
+
+# make a fix for plugins and tools that
+# do not respect data-root option
+sudo ln --symbolic "$data_directory/docker/" /var/lib/docker
+
+</code>
+</pre>
+
+<br>
+
+Limit logs.<br>
+
+<br>
+
+<pre class="language-bash">
+<code>
+
+# edit /etc/docker/daemon.json
+{
+    ...
+    "log-opts":
+    {
+        "max-size": "100m",
+        "max-file": "5"
+    }
+}
+
+</code>
+</pre>
+
+<br>
+
+Set up permissions.<br>
+Configure Docker to start automatically with the system.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="1, 3"
+>
+<code>
+
+# requires relogging or su --login $USER
+sudo usermod --append --groups docker $USER
+
+sudo systemctl enable containerd.service
+sudo systemctl enable docker.socket
+sudo systemctl enable docker.service
+
+</code>
+</pre>
+
+<br>
+
+Start Docker. Check that it works.<br>
+Enable use of Docker stacks and services by creating a swarm.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="4-5, 7, 11"
+>
+<code>
+
+sudo systemctl start containerd.service
+sudo systemctl start docker.socket
+sudo systemctl start docker.service
+
+# or simply restart to apply permissions and to test automatic start in one go
+sudo reboot now
+
+docker run --rm hello-world
+docker run --interactive --tty --rm alpine nslookup www.google.com
+docker run --interactive --tty --rm alpine ping -c4 www.google.com
+
+docker swarm init
+docker info
+
+</code>
+</pre>
+
+<br>
+
+Install
+<a href="https://github.com/MatchbookLab/local-persist" reference>
+local-persist</a> plugin.<br>
+It enables user managed volumes that
+combine the best of both bind mounts and Docker managed volumes.<br>
+Volumes, a being historical evolution of the concept, have many advantages over bind mounts.
+They fix various permission issues that occur with bind mounts and
+are safely shared between multiple running containers.
+Volumes get conveniently prepopulated from the image on container initialization, whereas
+bind mounts leave the host directory as it was: empty.
+But they have one fatal flaw.
+Volumes reside in the docker data directory.
+And there is no practical way to change its location in the host filesystem.<br>
+This plugin comes to the rescue.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="5-8, 10, 21-22, 24"
+>
+<code>
+
+curl --show-error --fail --silent \
+<span indent>--location https://raw.githubusercontent.com/\
+MatchbookLab/local-persist/master/scripts/install.sh | \
+sudo bash</span>
+
+# alternatively, install to run from within a container.
+# this option makes docker slow to start, because
+# volumes are restored before containers and there is no timeout setting.
+sudo mkdir --parents "$data_directory/local_persist"
+
+docker run --detach --restart unless-stopped \
+<span indent>--name local_persist \
+--network none \
+--mount type=bind,source=/run/docker/plugins/,destination=/run/docker/plugins/ \
+--mount \
+<span indent>type=bind,\
+source="$data_directory/local_persist/",\
+destination=/var/lib/docker/plugin-data/ \</span>
+--mount type=bind,source="$data_directory/",destination="$data_directory/" \
+cwspear/docker-local-persist-volume-plugin</span>
+
+# create a volume using the plugin
+sudo mkdir --parents "$data_directory/volume_1"
+
+docker volume create \
+<span indent>--name volume_1 \
+--driver local-persist \
+--opt mountpoint="$data_directory/volume_1/"</span>
+
+</code>
+</pre>
+
+</section>
+
+</div>
+
+<div navigation>
+<nav directory>
+<a href="."><span icon>🗀 .</span></a>
+</nav>
+</div>
+
+</body>
+
+</html>

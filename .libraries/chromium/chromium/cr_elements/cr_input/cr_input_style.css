@@ -1,0 +1,18 @@
+html
+{
+    --cr-input-color: var(--cr-primary-text-color);
+    --cr-input-error-color: var(--google-red-600);
+    --cr-input-focus-color: var(--google-blue-600);
+    --cr-input-background-color: var(--google-grey-100);
+    --cr-input-border-radius: 4px;
+}
+
+@media (prefers-color-scheme: dark)
+{
+    html
+    {
+        --cr-input-error-color: var(--google-red-300);
+        --cr-input-focus-color: var(--google-blue-300);
+        --cr-input-background-color: rgba(0, 0, 0, .3);
+    }
+}

@@ -1,0 +1,53 @@
+@import "prism_default.css" (prefers-color-scheme: light);
+@import "prism_tomorrow_night.css" (prefers-color-scheme: dark);
+
+code[class*="language-"],
+pre[class*="language-"]
+{
+    font-family: Roboto Mono, monospace;
+    color: var(--theme_color_input);
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"]
+{
+    background-color: var(--theme_background_color_input);
+}
+
+pre[class*="language-"]
+{
+    padding: 1rem;
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--theme_border_radius_input);
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection
+{
+    background-color: var(--theme_background_color_selection);
+}
+
+.command-line-prompt
+{
+    border-right: none;
+    margin-right: 0;
+}
+
+[class*='lang-'] script[type='text/plain'],
+[class*='language-'] script[type='text/plain'],
+script[type='text/plain'][class*='lang-'],
+script[type='text/plain'][class*='language-']
+{
+    font-family: Roboto Mono, monospace;
+    overflow: hidden;
+}
+
+.command-line-prompt ~ [indent],
+.command-line-prompt ~ [indent] [indent]
+{
+    position: relative;
+    left: 4ch;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+}

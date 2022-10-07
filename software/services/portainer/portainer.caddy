@@ -1,0 +1,13 @@
+handle /portainer/* {
+
+    uri strip_prefix /portainer
+
+    reverse_proxy {
+        to http://replace_container:9000
+    }
+
+}
+
+handle /portainer {
+    redir * /portainer/
+}

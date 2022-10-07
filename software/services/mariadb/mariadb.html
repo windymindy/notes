@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>
+MariaDB
+</title>
+
+<meta name="description" content="MariaDB.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="color-scheme" content="dark light">
+
+<link rel="stylesheet" href="../../../.libraries/theme.css">
+<link rel="stylesheet" href="../../../.libraries/note.css">
+
+<link rel="stylesheet" href="../../../.libraries/prism/prism.css">
+<script src="../../../.libraries/prism/prism.js"></script>
+
+</head>
+
+<body>
+
+<div note>
+
+<section content>
+
+<h2>
+MariaDB
+</h2>
+<hr>
+
+<br>
+
+Install the
+<a href="https://hub.docker.com/_/mariadb" reference>
+MariaDB<a> database.<br>
+
+<br>
+
+Specify the data directory
+<code class="language-bash token variable">replace_data_directory</code>.<br>
+Choose a container name
+<code class="language-bash token variable">replace_container</code> and
+volume names
+<code class="language-bash token variable">replace_volume</code>.<br>
+Specify the network
+<code class="language-bash token variable">replace_network</code>
+for connectivity with other services.<br>
+
+<br>
+
+Create the directories and the volumes.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="2, 8, 11, 14"
+>
+<code>
+
+data_directory="replace_data_directory" # data_directory=/data/services
+
+container=replace_container # container=mariadb
+volume=replace_volume # volume=mariadb
+volume_configuration=${volume}_configuration
+volume_data=${volume}_data
+network=replace_network # network=services
+
+sudo mkdir --parents "$data_directory/mariadb"
+sudo chmod --recursive a+rwX "$data_directory/mariadb/"
+
+mkdir "$data_directory/mariadb/configuration"
+mkdir "$data_directory/mariadb/data"
+
+docker volume create \
+<span indent>--name $volume_configuration \
+--driver local-persist \
+--opt mountpoint="$data_directory/mariadb/configuration/"</span>
+docker volume create \
+<span indent>--name $volume_data \
+--driver local-persist \
+--opt mountpoint="$data_directory/mariadb/data/"</span>
+
+</code>
+</pre>
+
+<br>
+
+Start the database in a temporary container with the root user password setting.
+Wait for it to initialize completely and then stop it from another session or just interrupt.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="12-13"
+>
+<code>
+
+docker run --rm --interactive --tty \
+<span indent>--name $container \
+--hostname $container \
+--network $network \
+--publish 3306:3306 \
+--mount type=volume,source=$volume_configuration,destination=/etc/mysql \
+--mount type=volume,source=$volume_data,destination=/var/lib/mysql \
+--env MYSQL_ROOT_PASSWORD=root \
+--mount type=bind,source=/etc/timezone,destination=/etc/timezone,readonly \
+--mount type=bind,source=/etc/localtime,destination=/etc/localtime,readonly \
+mariadb</span>
+
+# after initialization finished stop it from another session or interrupt
+docker container stop $container
+
+</code>
+</pre>
+
+<br>
+
+Create the container. This time it is permanent, so no password setting.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+>
+<code>
+
+docker run --rm --interactive --tty \
+<span indent>--name $container \
+--hostname $container \
+--network $network \
+--publish 3306:3306 \
+--mount type=volume,source=$volume_configuration,destination=/etc/mysql \
+--mount type=volume,source=$volume_data,destination=/var/lib/mysql \
+--mount type=bind,source=/etc/timezone,destination=/etc/timezone,readonly \
+--mount type=bind,source=/etc/localtime,destination=/etc/localtime,readonly \
+mariadb</span>
+
+</code>
+</pre>
+
+<br>
+
+Connect with your
+<a href="https://dbeaver.io/" reference>
+favourite</a> database management tool.<br>
+Change the root user password, create users, databases and tables.<br>
+
+</section>
+
+</div>
+
+<div navigation>
+<nav directory>
+<a href="."><span icon>🗀 .</span></a>
+</nav>
+</div>
+
+</body>
+
+</html>
