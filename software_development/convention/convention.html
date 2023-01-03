@@ -1,0 +1,1912 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>
+Software development convention
+</title>
+
+<meta name="description" content="Software development convention.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="color-scheme" content="dark light">
+
+<link rel="stylesheet" href="../../.libraries/theme.css">
+<link rel="stylesheet" href="../../.libraries/note.css">
+
+<link rel="stylesheet" href="../../.libraries/prism/prism.css">
+<script src="../../.libraries/prism/prism.js"></script>
+
+</head>
+
+<body>
+
+<div note>
+
+<section content>
+
+<h2>
+Software development convention
+</h2>
+<hr>
+
+<br>
+
+<h4 id="why_another_convention">
+Why another
+<a href="https://en.wikipedia.org/wiki/Coding_conventions" reference>
+convention?</a>
+</h4>
+Well, no major convention really fits.<br>
+
+<br>
+
+Firstly,
+<a href="https://github.com/Kristories/awesome-guidelines" reference>
+they</a> mostly are unreasonably huge and complex.
+Sometimes the rules cover only the most particular situations and
+are as numerous as exceptions.<br>
+And their documents tend to mix it all up: style, practices and idioms.
+Often a style is used as a
+<a href="https://google.github.io/styleguide/" reference>
+misnomer</a> for practices and rules.<br>
+
+<br>
+
+Secondly, no convention is complete.
+Even after reading quite some number of them one keeps revealing decisions that
+they serialize across various artifacts unconsciously and implicitly.<br>
+
+<br>
+
+Thirdly, conventions rarely assist one coming to an agreement with themselves.
+Just stating an agreement with no reasoning and
+expecting everyone to follow it is unconstructive.
+Statements want grounding.
+The adoption lies where the guidance becomes preferred over falling back to habits.<br>
+
+<br>
+
+A document is required that would be revisited iteratively and
+added to with description of deliberate and explicit choices.
+A thorough system of those with a structure and no contradictions
+is required to bring awareness.<br>
+Ideally, the convention should be so simple that
+reading it once would be enough to adhere to it without
+referring back or needing to recall.
+The rules should not get hung up on specifics but be general and versatile.
+The reasoning would make the decisions more appealing than personal preferences.<br>
+This is not achievable by only extending some other convention.<br>
+
+<br>
+
+Thus, this convention focuses on:<br>
+<div indent>
+    minimizing the number of rules and keeping them simple;<br>
+    stating every aspect explicitly, systematically and structured;<br>
+    providing rationale for guidances and making choices based on requirements;<br>
+    enumerating all sane alternatives, describing and comparing their advantages and
+    figuring out a general rationale;<br>
+    ensuring extensibility and full inner consistency.<br>
+</div>
+
+<br>
+
+The final goal is not to impose the rules but to provide a framework.
+It is perfectly fine that all decisions do not fit everyone.
+One coming from a different perspective is
+always free to fork the convention, add their causes wherever necessary and
+draw a different conclusion.
+In this case the convention provides the system and the alternatives.<br>
+
+<br>
+
+Some topics are too broad.
+Some parts of the convention may not be so elaborated yet.
+Sometimes the suitable solution depends on requirements entirely.
+The best effort strategy is at least to declare a request for comments, or
+to list multiple choices for reference, or
+to name all points of improvement.
+The convention is always open for new topics to discuss.<br>
+
+<br>
+
+One such subject is automated tooling.
+It would be so nice to have a
+<a href="https://github.com/caramelomartins/awesome-linters" reference>
+linter</a> that not only checks the style but can also
+recognize places for pattern and syntax improvements or
+even detect unsafe constructions.
+In practice, these tools are limited to work only
+within a certain technology or in a single environment.
+They operate well in basic scenarios, but
+their degree of flexibility is rarely sufficient.<br>
+Another such topic is personal preference.<br>
+
+<br>
+
+<h4 id="benefits_of_conventions_in_general">
+Benefits of conventions in general
+</h4>
+It is
+<a href="https://en.wikipedia.org/wiki/Coding_conventions#Reduction_of_complexity" reference>
+common knowledge</a> that artifacts are read more often than written.
+Readability and consistency are attributes of artifacts and
+should be regarded as components of quality of the product itself.
+By fixing rules and guidelines not only conventions improve quality,
+they also help avoiding interoperability issues and bugs.
+Having a convention sorted out makes the development process more efficient.
+It prevents wasting time on aspects that have already been agreed upon.
+Making up mind on those things and putting them aside allows
+focusing on creating without getting distracted.<br>
+
+<br>
+
+<h3 id="methods_approaches_practices">
+<a href="#methods_approaches_practices" link>
+Methods, approaches and practices
+</a>
+</h3>
+<hr>
+
+<br>
+
+Software is hard.
+<a href="https://en.wikipedia.org/wiki/Software_development" reference>
+Software development</a> comprises multitude of disciplines and activities and
+the field of knowledge about it is vast.
+Despite many emerging issues most likely have been solved already,
+facing a problem the optimal way requires a broad outlook in
+computer science and mainly software engineering,
+information technology with its history, management science, marketing...
+There are essential considerations worth taking into account and
+fixing at the project or organization level.
+And the solutions apply only on a case by case basis and
+are entirely dictated by requirements and available resources.<br>
+
+<br>
+
+Picking a <a href="https://en.wikipedia.org/wiki/Software_development_process" reference>
+methodology</a> is one of the core decisions.
+Agile software development with its variations is mainstream.
+But the waterfall approach can still be found as the only option for
+cooperation with certain contractors.
+The undeniable advantages of TDD and BDD are excessive for
+earlier stages of the software life cycle and
+may even be too expensive for some projects.<br>
+
+<br>
+
+The use of version control is mandatory.
+And there are questions that come with it.
+A <a href="https://trunkbaseddevelopment.com/alternative-branching-models/" reference>
+branching strategy</a> is to be chosen;
+trunk based branching is considered the default.
+Commit messages are subject to guidelines as well.
+To avoid bloating the repository,
+it is necessary to ignore artifacts that do not belong to it,
+such as builds, binaries, libraries, archives, settings, but
+to keep image and audio resources or datasets.<br>
+
+<br>
+
+The concerns are inexhaustible.
+Many aspects are preferred to be determined early:
+the documentation approach,
+the testing and reviewing policies,
+the governance structure...<br>
+
+<br>
+
+<h3 id="paradigms_idioms_patterns_principles">
+<a href="#paradigms_idioms_patterns_principles" link>
+Paradigms, idioms, patterns and principles
+</a>
+</h3>
+<hr>
+
+When it comes to implementation and design, stick to the
+<a href="https://en.wikipedia.org/wiki/Category:Computer_programming" reference>
+proven solutions</a>: code and software reuse, KISS, SOLID, ...<br>
+
+<br>
+
+<h3 id="source_artifact_encoding">
+<a href="#source_artifact_encoding" link>
+Source artifact encoding
+</a>
+</h3>
+<hr>
+
+<br>
+
+To prevent interoperability issues, all text files, such as source code or settings,
+must be UTF-8 encoded.
+There are other Unicode and non Unicode alternatives, but
+UTF-8 is by far the most common and is the core of many technologies.<br>
+
+<br>
+
+The byte order mark should not be used because
+there is still a lot of BOM unaware software.<br>
+
+<br>
+
+<a
+    href="https://www.aleksandrhovhannisyan.com/blog/crlf-vs-lf-normalizing-line-endings-in-git/"
+    reference
+>Line ending</a> consistency is often broken and forgotten about.
+CRLF is regarded redundant by some.
+Overall spread of LF is wider because of Unix.
+In general, it is safer to stick to one way of line breaking.<br>
+
+<br>
+
+<h3 id="structure">
+<a href="#structure" link>
+Structure
+</a>
+</h3>
+<hr>
+
+<br>
+
+This is a quite prevailing approach to enforce technology specific standards
+to the program structure and the project layout.
+There are conventions to put source code into the "src" directory and
+to split the functionality into separate controller and model modules or packages.
+Some languages and frameworks go even further in
+regulating program elements, entities and their relations.
+The use of the twisted interpretation of the encapsulation principle
+results in plain getters and setters for datatypes without any behavior.
+Methods and fields get grouped and ordered solely on the basis of whether
+they are static or instance and public or private.<br>
+
+<br>
+
+There are definitely advantages to clarity and comprehension speed in
+even controversial standards.
+But blindly following them leads to contradictions,
+to the use of misnomers or contractions,
+to all shortcomings listed in the introduction above.
+Naming a directory containing front end styles "css" is clear but not accurate enough.
+A top level project organization messaging nothing other than that it is written in Java or Ruby
+hints nothing about the problem being solved or how it is approached.<br>
+
+<br>
+
+Instead, the structure, whether of a program or directories, should be based on and reflect the
+<a href="https://medium.com/@benbjohnson/standard-package-layout-7cdbc8391fc1" reference>
+mental model</a> of the project domain over
+technologies, types of artifacts and implementation details.<br>
+
+<br>
+
+<pre id="structure_1">
+
+<code class="language-treeview">
+
+project_1/
+├── src/
+│   ├── models/
+│   │   ├── module_1.js
+│   │   └── feature_2.java
+│   ├── controllers/
+│   │   ├── module_1.rb
+│   │   └── feature_2.cpp
+│   └── main.c
+├── tests/
+│   ├── module_1/
+│   ├── feature_2/
+│   └── integration_3/
+├── css/
+└── readme.md
+
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-treeview">
+
+project_1/
+├── sources/
+│   ├── module_1/
+│   │   ├── model.java
+│   │   ├── controller.java
+│   │   └── tests.java
+│   ├── feature_2/
+│   │   ├── model.js
+│   │   ├── controller.js
+│   │   └── tests.js
+│   ├── tests/
+│   │   └── integration_3/
+│   └── main.c
+├── resources/
+└── project_1.md
+
+</code>
+
+</pre>
+
+<br>
+
+<h4 id="applying_indentation_spacing_to_convey_structure">
+Applying indentation and spacing to convey structure
+</h4>
+
+<br>
+
+When representing different structures, such as tree, plain or generally hierarchical and graph,
+relations usually in addition to being denoted are
+<a href="https://en.wikipedia.org/wiki/Indentation_(typesetting)#Indentation_in_programming" reference>
+desirably</a>
+<a href="https://en.wikipedia.org/wiki/Indentation_style" reference>
+emphasized</a> with indentation and spacing.<br>
+
+<br>
+
+If one tries to reflect nesting depth into horizontal indentation levels directly,
+they are likely to encounter confusion and resort to introducing different rules and exceptions.
+If we take a look at some program from a perspective of an hierarchical structure,
+we would find a good example of a class with data and methods contained inside a namespace.
+The direct mapping would oblige us to indent the class within the namespace just as
+the methods and the data inside the class.
+But namespaces
+<a href="https://google.github.io/styleguide/cppguide.html#Namespace_Formatting" reference>
+do not want</a> no indentation — it is unnecessary.<br>
+
+<br>
+
+The only seemingly universal but simple approach is
+to reconsider the attitude towards the structure itself.
+In the example, the data and the methods of the class are the central meaningful components,
+while the namespace is just a service entity, just like the module declaration,
+probably introduced to prevent any possible name collisions.
+This model works well when expanded.
+In a typical web application markup elements are arranged hierarchically and
+indented according to semantics and layout:
+there is a navigation widget in a header; a form is comprised of inputs.
+But when it comes to writing text documents, the focus is on the content, and
+the rest becomes utility and auxiliary.
+The paragraphs are just written as is and are not indented relative to chapters.<br>
+
+<br>
+
+The use of vertical spacing shall
+<a href="https://google.github.io/styleguide/cppguide.html#Vertical_Whitespace" reference>
+not be unreasonable</a>.
+It is a trade off between fitting more text and keeping it comfortable to read and
+<a href="https://google.github.io/styleguide/jsguide.html#formatting-vertical-whitespace" reference>
+depends</a> on cases.
+So as not to define them all, the general mindset is
+to visually split sibling blocks within indentation levels when either
+some of them group semantically or
+at least one of items has inner structure.
+Blank lines are added at the start and the end of groups as well.<br>
+
+<br>
+
+<pre class="language-cpp" id="structure_1_1">
+<code>
+
+export module module_1;
+
+namespace namespace_2
+{
+    class class_1
+    {
+        void method_1();
+        int data_1;
+    };
+}
+
+namespace namespace_1
+{
+
+class class_1
+{
+    void method_1();
+    int data_1;
+};
+
+}
+
+</code>
+</pre>
+
+<br>
+
+<pre class="language-tex" id="structure_1_2">
+<code>
+
+\starttext
+\startsection[title={Trying ConTeXt}]
+This is a {\em ConTeXt} document.
+\stopsection
+\stoptext
+
+</code>
+</pre>
+
+<br>
+
+<pre class="language-markup" id="structure_1_3">
+<code><!--
+
+<form action="/action">
+
+    <label for="first_name">First name:</label><br>
+    <input type="text" name="first_name" value="First" id="first_name"><br>
+
+    <label for="last_name">Last name:</label><br>
+    <input type="text" name="last_name" value="Last" id="last_name"><br>
+
+    <input type="submit" value="Submit">
+
+</form>
+
+--></code>
+</pre>
+
+<br>
+
+<pre class="language-yaml" id="structure_1_4">
+<code>
+
+services:
+
+    web:
+        image: web
+        depends_on:
+            - redis
+            - sql
+
+    redis:
+        image: redis
+
+    sql:
+        image: postgres
+
+<span></span>
+
+</code>
+</pre>
+
+<br>
+
+<h4 id="dependency_order">
+Dependency order
+</h4>
+
+<br>
+
+It is much easier to read and maintain
+import, include or dependency declarations and statements in
+source code, manifests, build configuration files that
+are ordered and grouped.
+There appears to be the only common approach, and it is also quite intuitive.
+There might have been performance and interoperability considerations on
+overriding, recurrence, circular dependencies before.
+But those do not seem to matter today.<br>
+
+<br>
+
+The current module declaration always goes first.
+In C family languages, that would be an include statement rather than a separate keyword.
+But it should be perceived in its special meaning and stand alone regardless.
+Then the libraries or dependencies come in order from generics to specifics.
+First any system and language abstractions, next perhaps some libraries, such as networking ones.
+Finally, current project or module parts are at the end.<br>
+
+<br>
+
+<h4 id="control_data_flows">
+Control and data flows
+</h4>
+
+<br>
+
+Control flow and data flow are one of the keys to
+understanding what a program does and how it operates, along with
+its data model, module breakdown, requirements, maybe something else...
+A program structure is mainly derived from a paradigm used.
+And there are many different ideas and problems to it.
+But both control flow and data flow are always to some extent inherent to it,
+whether in declarative or imperative programming.<br>
+
+<br>
+
+The <a href="https://medium.com/swlh/return-early-pattern-3d18a41bba8" reference>
+return early pattern</a> is one of the most popular concepts, and
+it is <a href="https://szymonkrajewski.pl/why-should-you-return-early/" reference>
+ubiquitously applicable</a>, especially in the imperative style.
+It promotes clarity of traversing a successful path and discarding concerns first.
+Failing fast is a way of scaling the logic of a program.
+Also, indentation levels get reduced drastically compared to
+nesting control and data flow alteration constructs.
+But the same can be achieved by introducing functions and extracting long blocks.
+The return early pattern requires changing the way of thought about the flow.
+And if it fits, the benefits are worth it.
+Overall, following the mental model is still primary.
+Say, in the case of mutually exclusive conditions,
+the else branch is the most appropriate.
+Even if the first branch alters the flow,
+visually parsing its body is not required to reason about the second one.<br>
+
+<br>
+
+It can also be said that returning early is
+<a href="https://softwareengineering.stackexchange.com/questions/18454" reference>
+incompatible</a> with system level programming.
+As having a single exit point enables centralized cleanup, which
+is most relevant when working with system APIs
+(not to be confused with the single entry single exit principle that
+only suggests that functions should return control to where it comes from).
+This is solved with the scope guard pattern.
+It uses function objects for cleanup on their destruction.<br>
+
+<br>
+
+<h4 id="composing_grouping_entities">
+Composing and grouping entities
+</h4>
+Flat organization might result in longer names while
+hierarchical structure may impose unnecessary burden.
+Nested namespaces, modules, classes should be introduced with caution and
+in balance with creating identifiers by combining names.<br>
+
+<br>
+
+<h3 id="language_semantics">
+<a href="#language_semantics" link>
+Language and semantics
+</a>
+</h3>
+<hr>
+
+<br>
+
+Programming languages are usually based on natural languages,
+<a href="https://en.wikipedia.org/wiki/Non-English-based_programming_languages" reference>
+typically</a>
+<a href="https://en.wikipedia.org/wiki/English_in_computing#Programming_language" reference>
+English</a>, but greatly simplified.
+Syntax and formal structure are the only significant aspects to machines.
+Excessive expressiveness would overwhelm humans as well.
+And while punctuation and complex grammar are disregarded,
+orthography and basic
+<a href="https://en.wikipedia.org/wiki/English_grammar" reference>
+grammar</a> still apply.
+It is common<br>
+<div indent>
+    to omit articles,<br>
+    not to add the suffixes to third person singular present verb endings,<br>
+    to drop and imply subjects.<br>
+    Only simple and continuous verb tenses are used.<br>
+    The verb be and its forms as auxiliary verbs are usually skipped.<br>
+    And so on...<br>
+</div>
+But spelling mistakes are discouraged.<br>
+
+<br>
+
+When certain semantic patterns and habits establish,
+it may be preferable to formulate them explicitly so that
+wordings of recurring phrases are consistent over the entire codebase.
+There is no use trying to anticipate all occasions as they can be very specific.
+But here are some examples.<br>
+<div indent>
+    Functions are verbs in the imperative mood.<br>
+    Signals, events and handlers are indicative.<br>
+    Possession relation is denoted with the verb have.<br>
+    Descriptive, attributive, distributive adjectives are chosen over
+    limiting, demonstrative ones.<br>
+    Setting names should clearly indicate what their defaults are.
+    The words set and unset can help signify setting values if no action has been taken.<br>
+    ...<br>
+</div>
+
+<br>
+
+It takes countless considerations to make artifacts concise.
+The domain is the best source of names.
+The number of entities is better to be
+<a href="https://en.wikipedia.org/wiki/Occam%27s_razor" reference>
+kept minimal</a>.
+It is important that unrelated terms are named distinctly and close terms are called similarly.
+There should be no meaningless and implicit distinctions between instances of the same term.
+All of these points improve comprehension.
+The searching convenience is also not to be forgotten when naming.<br>
+
+<br>
+
+Names are often given unnecessary specificity.
+It could be for naming repeated terms or even resolving name clashes.
+When input is processed, say, it comes as a string and then is converted to a number.
+One could say that we have
+<code class="language-javascript token variable">input_string</code> variable and
+<code class="language-javascript token variable">input_number</code> variable.
+But that would result in having two different terms for the same purpose of reading input.
+Shadowing is the best mean of keeping identifiers concise in this case given
+it is supported by the technology used.
+And if it is not supported or
+some occurrences can not be shadowed, as they are used later,
+then just numbering variables is still better.
+This way it is obvious that all instances are responsible for the same intention.
+Another encountered technique is to embed type information into identifiers.
+Sometimes this is to
+<a href="https://en.wikipedia.org/wiki/Hungarian_notation" reference>
+decorate types</a> in dynamic languages, sometimes just for the sake of it.
+For example, in C, C family languages and POSIX types are conventionally defined with
+the <code class="language-c token variable">_t</code> suffix.
+This is a slippery slope and should not be abused.
+It all ends up with adding words method, function and field to each program component name.
+To the point where it is unreadable.<br>
+
+<br>
+
+<pre class="language-javascript" id="language_semantics_1">
+<code>
+
+function process_input (input_string)
+{
+    let input_number = number.from (input_string)
+    ...
+}
+
+function process_input (input)
+{
+    input = number.from (input)
+    ...
+}
+
+</code>
+</pre>
+
+<br>
+
+Terms might be not specific enough or emphasize unimportant aspects.
+There is nothing wrong in having the same name for both variable and its type in general.
+But the purpose of variable file of type file may be unclear without context.
+If it is a log file, then perhaps it should be called so -
+<code class="language-javascript token variable">log</code>.
+And repeating the word file in log file is redundant,
+since this information is already present in the type.
+Naming a variable <code class="language-javascript token variable">callback</code>
+messages only that it gives control back at some point, which
+is not as important as that
+it gets called after some operation finishes or when some event occurs.<br>
+
+<br>
+
+Some components are more specific than others.
+This may be because they apply broader functionality to certain use cases, as
+in the log file example from before.
+Or it may be an implementation of some functionality for a platform.
+The best way to express this relation and set the context is by structure
+using means of composition typical to the language:
+modules, namespaces, classes.
+That would be putting fields
+<code class="language-javascript token variable">file</code> and
+<code class="language-javascript token variable">level</code> into
+a structure <code class="language-javascript token variable">log</code>.
+When for some reason a flatter structure is chosen,
+the name specifies meaning additional to the base term.
+Nouns and adjectives, complements and objects appear in
+postposition rather than preposition.
+So <code class="language-javascript token variable">service_unix</code> and
+<code class="language-javascript token variable">service_windows</code> are implementations of
+<code class="language-javascript token variable">service</code>.
+This groups identifiers by structure and relation relative to the base concept.<br>
+
+<br>
+
+Thus, to strengthen the point,
+if some concepts are not only close but very similar, call them the same;
+and distinct names are to be altered directly, explicitly and significantly.<br>
+
+<br>
+
+<pre id="language_semantics_2">
+
+<code class="language-typescript">
+
+class file { ... }
+
+let log_file = file.open (...);
+
+let log : file = file.open (...);
+
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-javascript">
+
+let log_file = file.open (...);
+let log_level = "debug";
+
+class log
+{
+    file = file.open (...);
+    level = "debug";
+}
+
+let service_log = new log ();
+
+class log
+{
+    ...
+    set_verbose () { ... }
+    unset_verbose () { ... }
+}
+
+service_log.set_verbose ();
+
+class log
+{
+    ...
+    verbose = { ... };
+}
+
+service_log.verbose.set ();
+
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-javascript">
+
+class service
+{
+    start (started) { ... }
+    started = null;
+
+    static unix = class { ... }
+}
+
+class service_unix { ... }
+
+</code>
+
+</pre>
+
+<br>
+
+If in doubt whether to use the plural or the singular form of a term,
+an heuristic can be utilized.
+Plurals are for things that consist of items of the same type,
+and singulars are for things comprised of different items.
+A folder and an SQL entity are great examples.
+A folder that contains source code of
+<code class="language-bash token variable">implementations</code> for various platforms is plural.
+An <code class="language-bash token variable">implementation</code> split into
+multiple files is singular.
+Table <code class="language-javascript token variable">users</code> lists many users.<br>
+
+<br>
+
+Contractions and abbreviations make it shorter but are informal and lead to confusion.
+Therefore, one should refrain from using them.<br>
+
+<br>
+
+<h3 id="style">
+<a href="#style" link>
+Style
+</a>
+</h3>
+<hr>
+
+<br>
+
+<h4 id="letter_case">
+Letter case
+</h4>
+
+<br>
+
+Different <a href="https://en.wikipedia.org/wiki/Letter_case" reference>
+letter case styles</a> exist.
+And there are different
+<a href="https://en.wikipedia.org/wiki/Word_recognition" reference>
+models and theories of reading</a>.
+That would be great to have scientific evidence of
+a certain letter case being statistically faster and more precise to recognize.
+But this just does not seem to be the case.
+Instead, here it is simply taken for granted that
+speed and accuracy of a letter case style is a matter of habit, which
+happens to be the dominant view.<br>
+
+<br>
+
+It is suggested to use lowercase letters only.
+There are no <a href="https://rust-lang.github.io/api-guidelines/naming.html" reference>
+capitalization rules</a> to remember then.
+Sticking to the same letter case everywhere is also interoperable in the sense that
+some systems, such as databases and older file systems, are case insensitive.
+Furthermore, there are few letters that are difficult to distinguish when
+presented in a combination of majuscule and minuscule glyphs.
+Without getting into the readability dispute,
+choosing between all lower and all upper case,
+capitalized text may be perceived as yelling.<br>
+
+<br>
+
+What is the value of using mixed cases and particularly upper camel case, anyway?
+Maybe one is comfortable always starting class names with capital letters.
+This distinguishes class names from other identifiers such as variables.
+Does it has something to do with treating components as
+<a href="https://softwareengineering.stackexchange.com/questions/202031" reference>
+proper nouns</a>?
+And how is it any different from namespaces, which
+always start with a small letter in any convention?
+And acronyms become very confusing as well.
+This is nothing more than embedding implicit information into an identifier.
+As discussed earlier, relying on minor subtle distinctions between terms is impractical.
+The language might not support the same name for a type and its instance.
+Well, it should.
+Otherwise, it is worth making disambiguation more explicit than letter register.
+Coming up with a variable identifier name hinting at its purpose is even better.
+What if one wants the code to scream at them, after all?
+That is to denote constants or global scopes — an utterly popular stylistic device.
+Yet it has no semantics whatsoever.
+Putting constants into a namespace, a module or a class separately
+does a better job of expressing intentions.<br>
+
+<br>
+
+In the natural languages words are separated by spaces.
+Most programming and markup languages do not allow whitespace characters in identifiers.
+Since there is no case alteration of the camel style and all letters are lowercase,
+there has to be a word delimiter.
+snake_case and kebab-case are the two alternatives.
+It is hard to give preference to one over another universally.
+Software treats underscores and hyphens differently.
+<a href="https://developers.google.com/search/docs/crawling-indexing/url-structure" reference>
+Search engines</a> used to not consider underscores as word breaks in URLs.
+Selection behavior varies for these delimiters in text editors, browsers,
+well, in just about any program that displays text, including operating systems.
+Double clicking a word selects the full identifier if underscores are used as separators, and
+only the clicked word in the case of hyphens.
+Both symbols are not applicable everywhere.
+Underscores are <a href="https://stackoverflow.com/questions/2180465" reference>
+not valid</a> for hostnames, unlike hyphens, and should not be used for domain names either.
+And the hyphen is the same character as the minus operator reserved in programming languages and
+can not appear in identifiers.
+If one is really up to stand for the
+<a href="https://google.github.io/styleguide/tsguide.html#identifiers-imports" reference>
+single</a> delimiter everywhere,
+the most pro underscore argument is that it resembles the space character and has the same width.
+But it might blend with underlined text.
+The major argument against hyphens as word separator is that
+it is already a part of the natural language and
+is used for producing open compound words.
+But dates actually look organically with the hyphen.
+Overall, the underscore seems to be the better choice.
+Especially if you treat the identifier as a whole.
+And for when the underscore is not a valid option it might be better
+either to resort to single word identifiers or
+to introduce some structure with periods in hostnames and subdomains and slashes in URLs.<br>
+
+<br>
+
+<h4 id="spacing">
+Spacing
+</h4>
+
+<br>
+
+The use of spaces is the hardest part of the coding style both for guides and for codebases.
+The nonprinting character is easy to miss.
+Yet altogether spaces change appearance of code significantly.
+Conventions usually enumerate situations and tell whether to put them or not.
+Making another list would not scale over technologies and languages.
+The set of cases would neither be complete nor feasible to properly maintain because
+they are plenty.
+Even formatting tools will inevitably fail and emit false negatives and positives as
+more rules begin to overlap.
+Especially if they are inconsistent with themselves.
+Moreover, the incalculable spacing habits are usually depicted as
+they have been established without any reflection or reasoning.
+The more they are, trying to remember and differentiate them all becomes unhealthy.
+A systematic solution is required.
+Otherwise, the guidances will get broken often.<br>
+
+<br>
+
+Need to determine where spaces are due and where not.
+The trend is clear: spacing is to
+<a href="https://en.wikipedia.org/wiki/Word_spacing#Effect_on_readability" reference>
+improve readability</a>.
+But there are places where the space character is discouraged.
+And opinions are often very strong on those.
+Starting examination with characteristic language constructions
+immediately unveils irregularities.<br>
+
+<br>
+
+Keywords usually have spaces put near, but
+<a
+    href="https://google.github.io/styleguide/jsguide.html#formatting-horizontal-whitespace"
+    reference
+>
+not all</a> of them.
+Some <a
+    href="https://kotlinlang.org/docs/coding-conventions.html#horizontal-whitespace"
+    reference
+>particularly emphasize</a> on control flow statements.
+But perhaps this is rather about those opposite keywords which form statements that
+<a href="https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces" reference>
+resemble function calls</a>:
+<code class="language-c">sizeof</code>,
+<code class="language-c">typeof</code>,
+<code class="language-javascript">super</code>,
+<code class="language-javascript">function</code> keywords itself, ...
+Because everyone has a habit of not putting spaces between function names and argument lists.
+This is taught with mathematical notation and looks very familiar.
+Rarely one can even come across the point of view that
+spaces should be used to
+<a
+    href="https://www.oracle.com/java/technologies/javase/codeconventions-whitespace.html"
+    reference
+>
+help</a>
+<a href="https://stackoverflow.com/a/7457346" reference>
+distinguish</a> keywords from functions.
+The latter sounds more of an excuse for the existing state of affairs due to ancient hindsight
+than an actual argument:
+development environments highlight reserved tokens differently;
+and the visual structure of corresponding expressions is distinctive.
+The division between functions and keywords is futile.
+No second order justification needed in place for simply saying that something looks right.
+But this is indeed a major quandary.
+If there must be spaces only after some keywords, then
+we would have to deal with criteria for belonging to this group.
+If it is all reserved words, then
+<a href="https://stackoverflow.com/questions/4368055#comment62585881_4368207" reference>
+what to do</a> with
+<a href="https://stackoverflow.com/questions/9765942" reference>
+function alike</a> statements?
+The prevalent style from mathematics, a field larger than programming, does not fit.
+Maybe
+<a href="https://eslint.org/docs/latest/rules/func-call-spacing" reference>
+just</a>
+<a href="https://en.wikipedia.org/wiki/GNU_coding_standards#Code_formatting" reference>
+embrace</a> the space
+<a href="https://stackoverflow.com/questions/53635322" reference>
+even</a> in function calls and declarations to make everything consonant.<br>
+
+<br>
+
+Giving up on spaces at all could ease the rules.
+But there are limiting narrow cases that discard this option.
+Some constructs and keywords literally require a space, such as
+<code class="language-javascript">return</code>,
+<code class="language-javascript">new</code>,
+<code class="language-javascript">delete</code>,
+<code class="language-javascript">typeof</code>, ...
+Some languages omit parentheses and braces in various situations,
+and the space character becomes the token separator.
+A prime example is the conditional statements in Lua and Go.
+Using spaces only when required by the compiler or interpreter is simple but
+stylistically incoherent.
+That would conflict with tendency of adorning code to improve readability.
+Could try the opposite side of this maximalist approach and put spaces everywhere
+just to see how it works.
+Say, if at least a second is spent contemplating
+whether to use spaces in particular positions or not, then do.
+And when it imminently goes beyond readable or just starts feeling forced,
+there is nothing else to do other than following something more traditional.
+That being, if not mathematics, then natural language
+<a href="https://en.wikipedia.org/wiki/Punctuation" reference>
+punctuation</a>.<br>
+
+<br>
+
+<pre id="style_2_1">
+
+<code class="language-javascript">
+// the same with for, while, match, switch, ...
+if(true){ ... }
+if (true) { ... }
+// in Lua that would be
+</code><br>
+<code class="language-javascript language-lua">
+if true then ... end
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-javascript">
+
+function(){ ... }
+function function_1(){ ... }
+
+// half measures
+function() { ... }
+function function_1() { ... }
+
+function () { return 42; }
+function function_1 () { typeof true === "boolean"; }
+
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-javascript">
+
+function_1();
+super();
+
+function_1 ();
+super ();
+
+</code>
+
+</pre>
+
+<br>
+
+Lists demonstrate this well: function parameters and arguments, array literals, tuples, ...
+In the natural language there is a space after comma and never before — very straightforward.
+Next, parenthetical phrases do not have spaces after opening and before closing
+<a href="https://eslint.org/docs/latest/rules/space-in-parens" reference>
+parentheses</a>,
+neither do not functions in math.
+This finds reflection in forming statements and grouping expressions.
+However, <a href="https://eslint.org/docs/latest/rules/object-curly-spacing" reference>
+inline object literals</a> can be regarded both as
+<a href="https://en.wikipedia.org/wiki/Serial_comma" reference>
+series</a> separated by comma inside braces
+<a href="https://google.github.io/styleguide/jsguide.html#formatting-object-literals" reference>
+without spaces</a> near them or rather as structural entities.
+The spaces are actually wanted because they add the shape and the impression of a block or a class.
+That correlates with the multiple line writing of objects —
+newline characters are simply replaced with spaces.
+Further,
+<a href="https://eslint.org/docs/latest/rules/array-bracket-spacing" reference>
+array literals</a> with brackets can be assigned to any of these
+two types of usage.
+So for one who is not bothered by too many spaces,
+simply opting for them removes many concerns.<br>
+
+<br>
+
+<pre id="style_2_2">
+
+<code class="language-javascript">
+
+// too obtrusive? does not really add much.
+if ( true ) { ... }
+function_2 ( argument_1, argument_2 );
+( a + b ) / c
+
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-javascript">
+
+if (true) { ... }
+function_2 (argument_1, argument_2);
+(a + b) / c
+
+</code>
+
+</pre>
+
+<br>
+
+<pre id="style_2_3">
+
+<code class="language-javascript">
+
+{property_1: 123, property_2: "321"}
+[1, 2, 3]
+
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-javascript">
+
+{ property_1 : 123, property_2 : "321" }
+[ 1, 2, 3 ]
+
+{
+    property_1 : 123,
+    property_2 : "321"
+}
+[
+    1,
+    2,
+    3
+]
+
+</code>
+
+</pre>
+
+<br>
+
+The colon mark has diverse purposes.
+The space after it is always there.
+It mostly
+<a href="https://en.wikipedia.org/wiki/Colon_(punctuation)#Spacing" reference>
+lingers</a> to the introductory clause when it has place.
+The downside of no space before the colon character is that visual clarity might be harmed.
+Type declaration and indication, inheritance, loop iteration, properties in object literals,
+initializer lists in constructors, cases in switch statements or labels,
+ternary conditional expressions, ... —
+the variants are
+<a href="https://kotlinlang.org/docs/coding-conventions.html#colon" reference>
+too many</a> to distinguish.<br>
+
+<br>
+
+<pre id="style_2_4">
+
+<code class="language-java">
+for (String key: map) { ... }
+</code><br>
+<code class="language-typescript">
+let name: string = 'First Last';
+</code><br>
+<code class="language-javascript">
+{ property_1: 123, property_2: "321" }
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-java">
+for (String key : map) { ... } // Java
+</code><br>
+<code class="language-typescript">
+let name : string = 'First Last'; // TypeScript
+</code><br>
+<code class="language-javascript">
+{ property_1 : 123, property_2 : "321" }
+let result = true ? a : b;
+</code><br>
+<code class="language-cpp">
+struct derived : base { ... } // C++
+</code>
+
+</pre>
+
+<br>
+
+Sometimes it is just a question of whether it is one word or multiple.
+A template type inside angle brackets is still a part of a class or function identifier.
+The double colon scope operator and the dot reference operator form compound terms.
+So there are no spaces.
+The odder it is to see the lack of spaces in expressions with the unary operators,
+such as unary increment, boolean negation and arithmetic negation,
+similarly to the binary ones.<br>
+
+<br>
+
+<pre id="style_2_5">
+
+<code class="language-cpp">
+
+// single compound term
+object_1.property_1;
+using namespace_1::class_1;
+
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-javascript">
+
+let result=a+b;
+a++;
+
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-javascript">
+
+// just like words are separated in writing
+let result = a + b;
+++ a;
+a ++;
+! b;
+print (- i);
+
+</code>
+
+</pre>
+
+<br>
+
+Textual commentaries prefer being slightly detached so they do not blend with the described.
+Every style inserts the space on both sides of the escape sequence near
+the beginning of the text and the code.
+That should not be always expected from code commentaries that
+temporarily remove instructions from execution or modify plain text data during tinkering.<br>
+
+<br>
+
+<pre id="style_2_6">
+<code class="language-c">
+
+int a (0); // helpful message
+//disabled_line ();
+
+</code>
+</pre>
+
+<br>
+
+There should be no trailing whitespace at the end of lines.
+No strong reason behind this,
+maybe except for rare issues with careless regular expression searches.
+Just to be diligent.<br>
+
+<br>
+
+These rational designs should be enough.
+The results will not fit existing codebases as the divergences are numerous.
+Most of the time the answer is just a direct matter of what is primary:
+preferences, programming and cultural background, fanciness, uniformity or simplicity.
+Hopefully, at least a proper overview on the topic is provided.<br>
+
+<br>
+
+<h4 id="line_breaking_indentation">
+Line breaking and indentation
+</h4>
+
+<br>
+
+It is best not to have long statements in code at all.
+There are always means of reducing cognitively loaded constructs,
+such as extraction of expressions into separate functions or variables.
+If they are not applicable for some reason, the line is to be broken and wrapped.
+Some statements always want to occupy multiple lines
+regardless of how much space they would take up on a single line.
+This is to outline the visual structure so it is recognized easily.
+<a
+    href="https://hackaday.com/2020/06/18/ask-hackaday-are-80-characters-per-line-still-reasonable-in-2020/"
+    reference
+>
+Technical limitations</a> on line length are a thing of the past.
+Extra eye movement can be positive in general,
+though not sure about the unhealthy effect of repetitive trajectories on the eye muscle balance.
+What is certain is that text out of sight interrupts the reading flow.<br>
+
+<br>
+
+Having figured out why, the next question is when to break lines.
+An objective restriction on the margin of the line eliminates the need to evaluate its lengthiness.
+So just pick the maximum number of characters per line that suits: 80, 88, 99, 100, 101, 111.<br>
+
+<br>
+
+When the code wraps and gets indented so as the track of the program structure is not lost,
+whitespace fills the padding.
+Tabs can be adjusted to the preferred width.
+On the other hand, different platforms and software have different defaults.
+Chances are that tabs will not look the same they were written.
+Spaces are one character reliably.
+They are more flexible and give control within columns,
+which is not necessarily a benefit, though.
+The appropriate amount of spaces probably varies for programming and markup languages.
+The most common are 4 and 2 spaces.<br>
+
+<br>
+
+As for <a href="https://stackoverflow.com/questions/699300" reference>
+where</a> to break and what to wrap...
+All indentation levels are to be aligned.
+The number of levels is to be minimized
+more in the sense of creating symmetry between code blocks rather than
+maintaining indentation depth, but of course
+along with utilizing the extraction technique and the early return pattern.
+And the logic for newline placement shall be so innate and intuitive that
+it reproduces consistently and does not have to be looked up.<br>
+
+<br>
+
+Navigating the syntax tree,
+equal (equally significant) parts of nodes stay on the same indentation levels.
+Being wrapped, they do not add an offset to the beginning of the statement, as
+it would be needless.
+Because this repeats the way usual multiline conditional constructs are written.
+The closing parenthesis of the argument list of a function call is another example.<br>
+
+<br>
+
+<pre id="style_3_1">
+
+<code class="language-javascript">
+
+module_1.module_2
+    .module_3.function_1 ();
+
+a =
+    b + c;
+
+while
+    (true)
+    {
+        ...
+    }
+
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-javascript">
+
+module_1.submodule_2.submodule_3
+.function_1 ();
+
+a =
+b + c;
+
+while
+(true)
+{
+    ...
+}
+
+</code>
+
+</pre>
+
+<br>
+
+The choice of
+<a href="https://google.github.io/styleguide/jsguide.html#formatting-object-literals" reference>
+which parts</a> to wrap is free.
+Although, it is wiser to break at
+<a href="https://google.github.io/styleguide/jsguide.html#formatting-where-to-break" reference>
+higher levels</a> in the syntax tree, because this makes overall blocks more organized.
+Sometimes this would do no impact when it is only the nested part that does not fit on the line.
+Or when other parts already span several lines or do not take that much space.
+It is the condition that we break in conditional statements.<br>
+
+<br>
+
+And so, when deeper expressions become multiline, they add indentation levels.
+Given the above requests,
+this firm translation of syntactic depth into indentation levels leads to provisions.
+Parts get the same indentation as a whole, and their beginning always goes to a new line.
+Contrary to this,
+<a href="https://google.github.io/styleguide/cppguide.html#Function_Declarations_and_Definitions" reference>
+wrapping mid nodes</a> would create unaligned indentation levels.
+And leaving the start on the previous line as an alignment beacon would make the style hard to maintain.
+The position may change during refactoring and tear the alignment.
+Additionally, all parent levels also wrap and indent.
+This makes the formatting regular.<br>
+
+<br>
+
+<pre id="style_3_2">
+
+<code class="language-javascript">
+
+// breaks alignment. problematic to maintain.
+long_function_1 (argument_1,
+                 argument_2);
+slightly_longer_2 (argument_1,
+                   argument_2);
+name_changed_1 (argument_1,
+                 argument_2); // refactoring tools do not respect alignment
+
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-javascript">
+
+long_function_1
+(argument_1, argument_2);
+function_1 (
+    long_argument_1, // function name is fine, parameters are too many.
+    long_argument_2
+); // aligned with the outset
+
+if (
+    condition_1 // nowhere else to break
+    && condition_2
+)
+{ ... }
+
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-javascript">
+
+if ( expression_1 && function_2 (
+    long_argument_1, // what indentation level should it be?
+    long_argument_2
+))
+{ ... }
+
+if ( expression_1 && function_2 (
+        long_argument_1,
+        long_argument_2
+    )
+)
+{ ... }
+
+if (
+    expression_1 // has to be on a separate line because of function_2
+    && function_2 (
+        long_argument_1,
+        long_argument_2
+    )
+)
+{ ... }
+
+</code>
+
+</pre>
+
+<br>
+
+<a href="https://en.wikipedia.org/wiki/Bracket" reference>
+Bracket</a> placement is another long going debate.
+There is the
+<a href="https://en.wikipedia.org/wiki/Indentation_style#Variant:_1TBS_(OTBS)" reference>
+one true brace style</a>, derived from the
+<a href="https://en.wikipedia.org/wiki/Indentation_style#K&R_style" reference>
+Kernighan and Ritchie style</a>, with the advantage of saving a line of vertical space.
+It is also said that with this style a
+<a href="https://softwareengineering.stackexchange.com/questions/2715#comment23833_15710" reference>
+mistakenly placed semicolon</a> between the condition and the branch is easier to catch.
+Which is too minor of an argument.
+Curly braces are devoted to denote blocks of code.
+And keeping indentation aligned for easier detection is what the
+<a href="https://en.wikipedia.org/wiki/Indentation_style#Allman_style" reference>
+Allman style</a> for.
+Similarly to the use of spaces for creating impression of structure,
+an extra line with a brace on it adds visual clarity.
+And despite following the style that keeps the brace on the same line,
+one might still add an extra empty line at the beginning of a longer block and
+negate the line economy.
+Opening curly braces on separate lines already act as vertical spacing.
+The opening round brackets residing on the same line are probably alright
+when used in their parenthetical or statement continuation meaning.<br>
+
+<br>
+
+<pre id="style_3_3">
+
+<code class="language-javascript">
+
+// no extra line. but the code block is not denoted as clearly.
+function function_1 () {
+    ...
+}
+
+if (true) {
+    ...
+}
+
+if (true); { // typo causing the branch to always execute is easier to spot
+    ...
+}
+
+if (
+    condition_1
+    && condition_2) {
+    statement_1; // blends
+}
+
+if (
+    condition_1
+    && condition_2
+) {
+    statement_1;
+}
+
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-javascript">
+
+// the code block is visually aligned
+function function_1 ()
+{
+    ...
+}
+
+if (true)
+{
+    ...
+}
+
+if (
+    condition_1
+    && condition_2
+)
+{
+    statement_1;
+}
+
+</code>
+
+</pre>
+
+<br>
+
+Note, however, that
+<a
+    href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#line_terminators"
+    reference
+>automatic semicolon insertion</a>
+<a href="https://stackoverflow.com/questions/12745743" reference>
+sometimes</a> turns newline characters into statement terminators.
+Should not let this have much effect on line breaking.<br>
+
+<br>
+
+<pre class="language-javascript" id="style_3_4">
+<code>
+
+// returns undefined
+function (...)
+{
+    return // ;
+    {
+        ...
+    };
+}
+
+function (...)
+{
+    return (
+        {
+            ...
+        }
+    );
+}
+
+function (...)
+{
+    let result =
+    {
+        ...
+    }
+    return result;
+}
+
+</code>
+</pre>
+
+<br>
+
+Correctness and operability aside,
+newline and statement continuation
+<a href="https://eslint.org/docs/latest/rules/operator-linebreak" reference>
+precedence</a> has stylistic implications.
+Operators that reside at the end of the previous line indicate statement incompleteness.
+Continuation placement on the next line shows links between expressions concentrated at the indentation start.
+So one does not have to jump over the code to understand what it does.<br>
+
+<br>
+
+<pre id="style_3_5">
+
+<code class="language-javascript">
+
+if (
+    expression_1 &&
+    long_expression_2 ||
+    expression_3
+)
+{ ... }
+
+let result =
+variable_1 +
+long_variable_2 -
+variable_3;
+
+let result =
+condition_1 ?
+</code><br>
+<code class="language-plain no-whitespace-normalization">long_expression_2 </code>
+<code class="language-javascript"> :
+expression_3;
+
+</code><br>
+
+<br>
+<hr>
+
+<code class="language-javascript">
+
+if (
+    expression_1
+    && long_expression_2
+    || expression_3
+)
+{ ... }
+
+let result =
+variable_1
++ long_variable_2
+- variable_3;
+
+let result =
+condition_1
+? long_expression_2
+: expression_3;
+
+</code>
+
+</pre>
+
+<br>
+
+As already rendered in the indentation and structure topic,
+some utility entities may slightly float out of indentation.
+Apart from mentioned namespaces, labels could make an example.
+But this is rather a question of view on the relations of such elements in the program structure:
+do they complement other components or make their own.<br>
+
+<br>
+
+<pre class="language-javascript" id="style_3_6">
+<code>
+
+let i = 5;
+
+switch (i)
+{
+case 0 :
+    ...
+    break;
+
+case 1 : ... break;
+
+default :
+    {
+        ...
+    }
+    break;
+}
+
+switch (0)
+{
+    case i % 15 :
+    ...
+    break;
+
+    case i % 3 : ... break;
+
+    case i % 5 : ... break;
+
+    default :
+    {
+        ...
+    }
+    break;
+}
+
+label_1 :
+for (...)
+{
+    label_2 :
+    for (...)
+    {
+        if (...)
+        {
+            break label_1;
+        }
+    }
+}
+
+</code>
+</pre>
+
+<br>
+
+There are some tempting indentation techniques that turn out to be unusable.
+<a href="https://google.github.io/styleguide/javaguide.html#s4.6.3-horizontal-alignment" reference>
+Column alignment</a> looks fancy but, again, is tiresome to maintain.
+The first refactoring will either leave the layout not restored or
+clutter the diff with irrelevant changes.
+Aligning selectively does not work either.
+Orienting, say, identifiers while shifting operators from the indentation grid
+is limited to the space available and
+is difficult to assist with editors.<br>
+
+<br>
+
+<pre class="language-java" id="style_3_7">
+<code>
+
+class class_1
+{
+    int                 field_1;
+    String              other_field_2;
+    type_changed_3                 field_3;
+}
+
+</code>
+</pre>
+
+<br>
+
+<pre class="language-javascript" id="style_3_8">
+<code>
+
+let result =
+    condition_1
+  ? expression_2
+  : expression_3;
+
+if (
+    condition_1
+ && expression_2
+=== expression_3 // pops beyond its alignment
+)
+{ ... }
+
+</code>
+</pre>
+
+<br>
+
+And just as with trailing whitespace,
+ending either every text document or none with a blank line is a matter of diligence.<br>
+
+<br>
+
+<h3 id="other_considerations">
+<a href="#other_considerations" link>
+Other considerations
+</a>
+</h2>
+<hr>
+
+That is about it.
+But there are always more considerations.
+At a lower level of detail,
+specific to technologies, organizations and projects,
+they are to be documented and communicated.
+The structure of the convention is to be reused if deemed convenient.<br>
+
+</section>
+
+</div>
+
+<div navigation>
+
+<nav contents>
+
+<h4 indent>
+<a href="#why_another_convention" link>
+Why another convention?
+</a>
+</h4>
+
+<h4 indent>
+<a href="#benefits_of_conventions_in_general" link>
+Benefits of conventions in general
+</a>
+</h4>
+
+<h3>
+<a href="#methods_approaches_practices" link>
+Methods, approaches and practices
+</a>
+</h3>
+
+<h3>
+<a href="#paradigms_idioms_patterns_principles" link>
+Paradigms, idioms, patterns and principles
+</a>
+</h3>
+
+<h3>
+<a href="#source_artifact_encoding" link>
+Source artifact encoding
+</a>
+</h3>
+
+<h3>
+<a href="#structure" link>
+Structure
+</a>
+</h3>
+
+<h4 indent>
+<a href="#applying_indentation_spacing_to_convey_structure" link>
+Applying indentation and spacing to convey structure
+</a>
+</h4>
+
+<h4 indent>
+<a href="#dependency_order" link>
+Dependency order
+</a>
+</h4>
+
+<h4 indent>
+<a href="#control_data_flows" link>
+Control and data flows
+</a>
+</h4>
+
+<h4 indent>
+<a href="#composing_grouping_entities" link>
+Composing and grouping entities
+</a>
+</h4>
+
+<h3>
+<a href="#language_semantics" link>
+Language and semantics
+</a>
+</h3>
+
+<h3>
+<a href="#style" link>
+Style
+</a>
+</h3>
+
+<h4 indent>
+<a href="#letter_case" link>
+Letter case
+</a>
+</h4>
+
+<h4 indent>
+<a href="#spacing" link>
+Spacing
+</a>
+</h4>
+
+<h4 indent>
+<a href="#line_breaking_indentation" link>
+Line breaking and indentation
+</a>
+</h4>
+
+<h3>
+<a href="#other_considerations" link>
+Other considerations
+</a>
+</h2>
+
+</nav>
+
+<nav directory>
+<a href="."><span icon>🗀 .</span></a>
+</nav>
+
+</div>
+
+</body>
+
+</html>

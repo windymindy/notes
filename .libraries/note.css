@@ -61,6 +61,7 @@ div[navigation]
     position: relative;
     display: grid;
     grid-template-rows:
+        [contents] max-content
         [repository] minmax(4rem, max-content)
         [fill_center] 1fr
         [directory] minmax(4rem, max-content);
@@ -68,6 +69,13 @@ div[navigation]
     align-items: start;
     justify-content: stretch;
     justify-items: stretch;
+}
+
+div[navigation] > [contents]
+{
+    grid-row: contents;
+    grid-column: 1;
+    align-self: start;
 }
 
 div[navigation] > [repository]
@@ -86,6 +94,13 @@ div[navigation] > [directory]
 div[navigation]
 {
     user-select: none;
+}
+
+nav[contents]
+{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
 }
 
 nav[repository]
