@@ -126,7 +126,7 @@ sudo chmod --recursive a+rwX "$data_directory/" # decide on your permissions
 sudo mv /var/lib/docker/ "$data_directory/"
 
 # make a fix for plugins and tools that
-# do not respect data-root option
+# do not respect the data-root option
 sudo ln --symbolic "$data_directory/docker/" /var/lib/docker
 
 </code>
@@ -213,20 +213,25 @@ docker info
 
 <br>
 
-Install
+Install the
 <a href="https://github.com/MatchbookLab/local-persist" reference>
-local-persist</a> plugin.<br>
+local-persist</a> volume plugin.<br>
 It enables user managed volumes that
 combine the best of both bind mounts and Docker managed volumes.<br>
-Volumes, a being historical evolution of the concept, have many advantages over bind mounts.
+<a href="https://docs.docker.com/storage/volumes/" reference>
+Volumes</a>, being a historical evolution of the concept, have many advantages over bind mounts.
 They fix various permission issues that occur with bind mounts and
 are safely shared between multiple running containers.
 Volumes get conveniently prepopulated from the image on container initialization, whereas
 bind mounts leave the host directory as it was: empty.
-But they have one fatal flaw.
-Volumes reside in the docker data directory.
+But the default local volume driver has one fatal flaw.
+As volumes are managed by Docker,
+the data resides in the Docker data directory and becomes coupled with the volume lifetime.
 And there is no practical way to change its location in the host filesystem.<br>
-This plugin comes to the rescue.<br>
+The plugin comes to the rescue.
+Docker volumes created with the local-persist driver behave similarly to
+<a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/" reference>
+persistent volumes</a> in Kubernetes.<br>
 
 <br>
 

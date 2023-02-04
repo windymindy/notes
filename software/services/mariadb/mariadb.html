@@ -95,7 +95,7 @@ docker volume create \
 <br>
 
 Start the database in a temporary container with the root user password setting.
-Wait for it to initialize completely and then stop it from another session or just interrupt.<br>
+Wait for it to initialize completely and then just interrupt or stop it from another session.<br>
 
 <br>
 
@@ -103,7 +103,7 @@ Wait for it to initialize completely and then stop it from another session or ju
     class="language-bash command-line"
     data-prompt="$"
     data-continuation-str="\"
-    data-output="12-13"
+    data-output="12-14"
 >
 <code>
 
@@ -119,7 +119,8 @@ docker run --rm --interactive --tty \
 --mount type=bind,source=/etc/localtime,destination=/etc/localtime,readonly \
 mariadb</span>
 
-# after initialization finished stop it from another session or interrupt
+# after initialization finished stop mariadb from another session or
+# interrupt it in the temporary container session
 docker container stop $container
 
 </code>
