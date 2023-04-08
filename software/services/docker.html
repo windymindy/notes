@@ -46,24 +46,22 @@ official installation guide</a>.<br>
     class="language-bash command-line"
     data-prompt="$"
     data-continuation-str="\"
-    data-output="3, 8, 16"
+    data-output="1-3, 14"
 >
 <code>
 
-sudo apt update
-sudo apt install curl
+# sudo apt update
+# sudo apt install curl ca-certificates gnupg
 
 sudo mkdir --parents /etc/apt/keyrings
 curl --show-error --fail --silent \
 <span indent>--location https://download.docker.com/linux/ubuntu/gpg | \
 sudo gpg --dearmor --output /etc/apt/keyrings/docker.gpg</span>
-
-echo "\
-<span indent>deb \
+echo \
+<span indent>"deb \
 [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
 https://download.docker.com/linux/ubuntu \
-$(lsb_release -cs) stable\
-" | \
+$(source /etc/os-release && echo $VERSION_CODENAME) stable" | \
 sudo tee /etc/apt/sources.list.d/docker.list > /dev/null</span>
 
 sudo apt update
@@ -84,13 +82,11 @@ configure</a>.<br>
     class="language-bash command-line"
     data-prompt="$"
     data-continuation-str="\"
-    data-output="4"
+    data-output="2"
 >
 <code>
 
-sudo systemctl stop docker.service
-sudo systemctl stop docker.socket
-sudo systemctl stop containerd.service
+sudo systemctl stop docker.socket docker.service containerd.service
 
 sudo touch /etc/docker/daemon.json
 
@@ -109,6 +105,7 @@ directory according to your setup.<br>
 <pre
     class="language-bash command-line"
     data-prompt="$"
+    data-continuation-str="\"
     data-output="2, 5-10, 12-14"
 >
 <code>
@@ -143,7 +140,7 @@ Limit logs.<br>
 
 # edit /etc/docker/daemon.json
 {
-    ...
+    ... ,
     "log-opts":
     {
         "max-size": "100m",
@@ -157,7 +154,6 @@ Limit logs.<br>
 <br>
 
 Set up permissions.<br>
-Configure Docker to start automatically with the system.<br>
 
 <br>
 
@@ -165,16 +161,35 @@ Configure Docker to start automatically with the system.<br>
     class="language-bash command-line"
     data-prompt="$"
     data-continuation-str="\"
-    data-output="1, 3"
+    data-output="1"
 >
 <code>
 
-# requires relogging or su --login $USER
+# requires relogging or su --login $USER or newgrp docker
 sudo usermod --append --groups docker $USER
 
-sudo systemctl enable containerd.service
-sudo systemctl enable docker.socket
-sudo systemctl enable docker.service
+</code>
+</pre>
+
+<br>
+
+Docker is already configured to start automatically with the system
+<a
+    href="https://docs.docker.com/engine/install/linux-postinstall/#configure-docker-to-start-on-boot-with-systemd"
+    reference
+>by default</a> on some distributions.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-continuation-str="\"
+    data-prompt="$"
+    data-output=""
+>
+<code>
+
+sudo systemctl enable containerd.service docker.service
 
 </code>
 </pre>
@@ -182,7 +197,6 @@ sudo systemctl enable docker.service
 <br>
 
 Start Docker. Check that it works.<br>
-Enable use of Docker stacks and services by creating a swarm.<br>
 
 <br>
 
@@ -190,22 +204,19 @@ Enable use of Docker stacks and services by creating a swarm.<br>
     class="language-bash command-line"
     data-prompt="$"
     data-continuation-str="\"
-    data-output="4-5, 7, 11"
+    data-output="2-3, 5, 7, 9, 11"
 >
 <code>
 
-sudo systemctl start containerd.service
-sudo systemctl start docker.socket
-sudo systemctl start docker.service
+sudo systemctl start containerd.service docker.service docker.socket
 
-# or simply restart to apply permissions and to test automatic start in one go
+# or simply restart to apply permissions and to check automatic start in one go
 sudo reboot now
 
 docker run --rm hello-world
 docker run --interactive --tty --rm alpine nslookup www.google.com
-docker run --interactive --tty --rm alpine ping -c4 www.google.com
+docker run --interactive --tty --rm alpine ping -c2 www.google.com
 
-docker swarm init
 docker info
 
 </code>
@@ -220,8 +231,8 @@ It enables user managed volumes that
 combine the best of both bind mounts and Docker managed volumes.<br>
 <a href="https://docs.docker.com/storage/volumes/" reference>
 Volumes</a>, being a historical evolution of the concept, have many advantages over bind mounts.
-They fix various permission issues that occur with bind mounts and
-are safely shared between multiple running containers.
+They are safely shared between multiple running containers and
+fix various permission issues that occur with bind mounts.
 Volumes get conveniently prepopulated from the image on container initialization, whereas
 bind mounts leave the host directory as it was: empty.
 But the default local volume driver has one fatal flaw.
@@ -274,6 +285,11 @@ docker volume create \
 
 </code>
 </pre>
+
+<br>
+
+Install and use Docker Compose to manage services.
+Alternatively, consider migrating to Kubernetes even for a single machine.<br>
 
 </section>
 
