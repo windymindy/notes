@@ -1,0 +1,42 @@
+concurrent = 4
+check_interval = 0
+#log_level = "debug"
+
+[session_server]
+  listen_address = "[::]:8093"
+  advertise_address = "replace_hostname:8093"
+  session_timeout = 3600
+
+[[runners]]
+  name = "replace_container"
+  url = "http://replace_hostname_gitlab/gitlab"
+  clone_url = "http://replace_hostname_gitlab/gitlab"
+  token = "replace_token" # ********************
+  environment = [
+    "gitlab_ci_url=http://replace_hostname_gitlab/gitlab",
+    "gitlab_ci_container_name=replace_container_${CI_PROJECT_ID}_${CI_PIPELINE_ID}_${CI_JOB_ID}_${CI_CONCURRENT_PROJECT_ID}",
+    "gitlab_ci_container_hostname=replace_hostname-${CI_PROJECT_ID}-${CI_PIPELINE_ID}-${CI_JOB_ID}-${CI_CONCURRENT_PROJECT_ID}",
+    "gitlab_ci_network=replace_network",
+    "gitlab_ci_volumes=replace_container_volumes",
+    "GIT_CLONE_PATH=$CI_BUILDS_DIR/gitlab/$CI_PROJECT_PATH/${CI_PIPELINE_ID}_${CI_JOB_ID}_${CI_CONCURRENT_PROJECT_ID}/",
+    "gitlab_ci_helper_image=octobus/heptapod-runner-helper:x86_64-${CI_RUNNER_REVISION}"
+  ]
+  executor = "docker"
+  [runners.docker]
+    image = "docker"
+    privileged = false
+    network_mode = "replace_network"
+    # /builds volume must be explicitly specified, even though it is inherited from the volumes container
+    # otherwise it bugs and creates a local volume
+    volumes = [
+      "replace_volume_builds:/builds",
+      "replace_volume_cache:/cache",
+      "/var/run/docker.sock:/var/run/docker.sock"
+    ]
+    volumes_from = [ "replace_container_volumes" ]
+    pull_policy = "if-not-present"
+    disable_cache = true
+    disable_entrypoint_overwrite = false
+    oom_kill_disable = false
+  [runners.custom_build_dir]
+    enabled = true

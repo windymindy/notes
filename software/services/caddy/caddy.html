@@ -53,7 +53,7 @@ Choose a name for the container
 <code class="language-bash token variable">replace_container</code>,
 for the volume
 <code class="language-bash token variable">replace_volume</code> and
-the network
+for the network
 <code class="language-bash token variable">replace_network</code>.<br>
 Use one or more Docker networks to hide services behind the reverse proxy.
 In this setup, applications do not publish any ports.
@@ -118,6 +118,24 @@ automatic provisioning</a> of keys and certificates.<br>
 
 <br>
 
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="2"
+>
+<code>
+
+cp caddy.configuration "$data_directory/caddy/"
+
+mv replace_key.key "$data_directory/caddy/tls/"
+mv replace_key.crt "$data_directory/caddy/tls/"
+
+</code>
+</pre>
+
+<br>
+
 Finally, start the container.<br>
 
 <br>
@@ -126,14 +144,9 @@ Finally, start the container.<br>
     class="language-bash command-line"
     data-prompt="$"
     data-continuation-str="\"
-    data-output="2, 5"
+    data-output=""
 >
 <code>
-
-cp caddy.configuration "$data_directory/caddy/"
-
-mv replace_key.key "$data_directory/caddy/tls/"
-mv replace_key.crt "$data_directory/caddy/tls/"
 
 docker run --detach --restart unless-stopped \
 <span indent>--name $container \

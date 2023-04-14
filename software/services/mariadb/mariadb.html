@@ -111,7 +111,6 @@ docker run --rm --interactive --tty \
 <span indent>--name $container \
 --hostname $container \
 --network $network \
---publish 3306:3306 \
 --mount type=volume,source=$volume_configuration,destination=/etc/mysql \
 --mount type=volume,source=$volume_data,destination=/var/lib/mysql \
 --env MYSQL_ROOT_PASSWORD=root \
@@ -119,7 +118,7 @@ docker run --rm --interactive --tty \
 --mount type=bind,source=/etc/localtime,destination=/etc/localtime,readonly \
 mariadb</span>
 
-# after initialization finished stop mariadb from another session or
+# after initialization finishes stop mariadb from another session or
 # interrupt it in the temporary container session
 docker container stop $container
 
@@ -139,7 +138,7 @@ Create the container. This time it is permanent, so no password setting.<br>
 >
 <code>
 
-docker run --rm --interactive --tty \
+docker run --detach --restart unless-stopped \
 <span indent>--name $container \
 --hostname $container \
 --network $network \

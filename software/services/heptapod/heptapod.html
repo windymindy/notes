@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>
+Heptapod
+</title>
+
+<meta name="description" content="Heptapod: GitLab with Mercurial support.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="color-scheme" content="dark light">
+
+<link rel="stylesheet" href="../../../.libraries/theme.css">
+<link rel="stylesheet" href="../../../.libraries/note.css">
+
+<link rel="stylesheet" href="../../../.libraries/prism/prism.css">
+<script src="../../../.libraries/prism/prism.js"></script>
+
+</head>
+
+<body>
+
+<div note>
+
+<section content>
+
+<h2>
+Heptapod: GitLab with Mercurial support
+</h2>
+<hr>
+
+<br>
+
+Install and configure
+<a href="https://heptapod.net/" reference>
+Heptapod<a>: a fork of the
+<a href="https://about.gitlab.com/" reference>
+GitLab software development platform<a> that works with both Git and Mercurial.<br>
+
+<br>
+
+Specify the
+<code class="language-bash token variable">replace_data_directory</code>
+directory to store the
+<a href="https://docs.gitlab.com/ee/install/docker#set-up-the-volumes-location" reference>
+data</a> in the
+<a href="https://hub.docker.com/r/octobus/heptapod" reference>
+preferred</a>
+<a href="https://hub.docker.com/r/gitlab/gitlab-ce" reference>
+location</a>.<br>
+Choose a container name
+<code class="language-bash token variable">replace_container</code>,
+a hostname
+<code class="language-bash token variable">replace_hostname</code> and
+volume names
+<code class="language-bash token variable">replace_volume</code>.<br>
+Specify the network
+<code class="language-bash token variable">replace_network</code>
+to serve behind a reverse proxy.<br>
+
+<br>
+
+Create the directories and the volumes.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="2, 10, 13, 17"
+>
+<code>
+
+data_directory="replace_data_directory" # data_directory=/data/services
+
+container=replace_container # container=gitlab
+container_hostname=replace_hostname # container_hostname=gitlab
+volume=replace_volume # volume=gitlab
+volume_configuration=${volume}_configuration
+volume_data=${volume}_data
+volume_logs=${volume}_logs
+network=replace_network # network=services
+
+sudo mkdir --parents "$data_directory/gitlab"
+sudo chmod --recursive a+rwX "$data_directory/gitlab/"
+
+mkdir "$data_directory/gitlab/configuration"
+mkdir "$data_directory/gitlab/data"
+mkdir "$data_directory/gitlab/logs"
+
+docker volume create \
+<span indent>--name $volume_configuration \
+--driver local-persist \
+--opt mountpoint="$data_directory/gitlab/configuration/"</span>
+docker volume create \
+<span indent>--name $volume_data \
+--driver local-persist \
+--opt mountpoint="$data_directory/gitlab/data/"</span>
+docker volume create \
+<span indent>--name $volume_logs \
+--driver local-persist \
+--opt mountpoint="$data_directory/gitlab/logs/"</span>
+
+</code>
+</pre>
+
+<br>
+
+Edit and place the
+<a href="gitlab.rb" reference>
+configuration</a> file.<br>
+Set the web server hostname and form the Heptapod
+<a
+    href="https://docs.gitlab.com/omnibus/settings/configuration#configure-the-external-url-for-gitlab"
+    reference
+>location</a>
+<code class="language-bash token variable">replace_location</code>
+that users will access.<br>
+Specify the internal network definition
+<code class="language-bash token variable">replace_network_addresses</code>
+so that GitLab
+<a
+    href="https://docs.gitlab.com/omnibus/settings/nginx#configuring-gitlab-trusted_proxies-and-the-nginx-real_ip-module"
+    reference
+>trusts</a> the reverse proxy and correctly displays user addresses, not the reverse proxy address.
+The address and the mask of the network
+<code class="language-bash token variable">replace_network</code>
+can be easily checked with the Docker command line interface or with Portainer.<br>
+
+<br>
+
+It is worth tailoring one's own
+<a href="https://docs.gitlab.com/omnibus/settings/configuration" reference>
+configuration</a> from scratch.
+For that, export the
+<a href="gitlab.rb.template" reference>
+template</a> configuration file from the latest image and
+change the defaults, toggle features and specify integrations.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="10, 12-14"
+>
+<code>
+
+docker container create \
+<span indent>--name $container \
+--hostname $container_hostname \
+--mount type=tmpfs,destination=/etc/gitlab \
+--mount type=tmpfs,destination=/var/opt/gitlab \
+--mount type=tmpfs,destination=/var/log/gitlab \
+octobus/heptapod</span>
+docker cp $container:/opt/gitlab/etc/gitlab.rb.template gitlab.rb
+docker container rm $container
+
+docker network inspect $network
+
+# edit the template gitlab.rb or use the supplied one and diff with the latest
+
+cp gitlab.rb "$data_directory/gitlab/configuration/"
+
+</code>
+</pre>
+
+<br>
+
+Configure the reverse proxy.
+Put the
+<a href="gitlab.caddy" reference>
+configuration</a> file to the web server directory.
+Set the Heptapod hostname
+<code class="language-bash token variable">replace_hostname</code>
+in the configuration file to forward requests to the container.
+Apply the web server configuration.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="2"
+>
+<code>
+
+container_caddy=replace_container_caddy # container_caddy=caddy
+
+cp gitlab.caddy "$data_directory/caddy/configuration/"
+docker container restart $container_caddy
+
+</code>
+</pre>
+
+<br>
+
+Finally, start the container.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output=""
+>
+<code>
+
+docker run --detach --restart unless-stopped \
+<span indent>--name $container \
+--hostname $container_hostname \
+--network $network \
+--mount type=volume,source=$volume_configuration,destination=/etc/gitlab \
+--mount type=volume,source=$volume_data,destination=/var/opt/gitlab \
+--mount type=volume,source=$volume_logs,destination=/var/log/gitlab \
+--shm-size 256m \
+--mount type=bind,source=/etc/timezone,destination=/etc/timezone,readonly \
+--mount type=bind,source=/etc/localtime,destination=/etc/localtime,readonly \
+octobus/heptapod</span>
+
+</code>
+</pre>
+
+<br>
+
+Optionally, tweak the default password constraints.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output=""
+>
+<code>
+
+docker container exec --interactive --tty $container /bin/bash
+sed --regexp-extended --in-place \
+<span indent>'s|'\
+'^(  DEFAULT_MINIMUM_PASSWORD_LENGTH = 8)$|'\
+'#\1\n  DEFAULT_MINIMUM_PASSWORD_LENGTH = 1|'\
+'w /dev/stdout' \
+/opt/gitlab/embedded/service/gitlab-rails/\
+app/models/application_setting_implementation.rb</span>
+quit
+docker container restart $container
+
+</code>
+</pre>
+
+<br>
+
+Sign in to the site at the /gitlab path as root with the
+<a
+    href="https://docs.gitlab.com/omnibus/installation#set-up-the-initial-password"
+    reference
+>automatically generated password</a> and perform configurations.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output=""
+>
+<code>
+
+sudo cat "$data_directory/gitlab/configuration/initial_root_password"
+
+</code>
+</pre>
+
+<br>
+
+General<br>
+<br>
+Account and limit<br>
+Session duration (minutes)<br>
+User OAuth applications<br>
+Prompt users to upload SSH keys<br>
+<br>
+Sign-up restrictions<br>
+Sign-up enabled<br>
+Minimum password length (number of characters)<br>
+<br>
+Customer experience improvement and third-party offers<br>
+Do not display offers from third parties<br>
+<br>
+Repository<br>
+Default branch<br>
+<br>
+CI/CD<br>
+<br>
+Continuous Integration and Deployment<br>
+Default to Auto DevOps pipeline for all projects<br>
+<br>
+Metrics and profiling<br>
+<br>
+Metrics - Prometheus<br>
+Self monitoring<br>
+Usage statistics<br>
+Enable version check<br>
+Enable Service Ping<br>
+<br>
+Preferences<br>
+<br>
+Email<br>
+Enable in-product marketing emails<br>
+<br>
+What's new<br>
+Disable What's new<br>
+<br>
+Localization<br>
+Default first day of the week<br>
+<br>
+Overview<br>
+Users<br>
+<br>
+Administrator<br>
+Edit<br>
+Password<br>
+<br>
+New user<br>
+Edit<br>
+Password<br>
+
+<br>
+
+<h3>
+Continuous Integration — Heptapod Runner
+</h3>
+<hr>
+
+<br>
+
+Set up continuous integration agents.
+<a href="https://heptapod.net/pages/get-heptapod#runner" reference>
+Heptapod Runner</a> is similar to
+<a href="https://docs.gitlab.com/runner/" reference>
+Gitlab Runner</a>.<br>
+
+<br>
+
+Specify the
+<a href="https://hub.docker.com/r/octobus/heptapod-runner" reference>
+data</a> directory
+<code class="language-bash token variable">replace_data_directory</code>.<br>
+Choose a container name
+<code class="language-bash token variable">replace_container</code>,
+a hostname
+<code class="language-bash token variable">replace_hostname</code> and
+volume names
+<code class="language-bash token variable">replace_volume</code>.<br>
+Specify the network
+<code class="language-bash token variable">replace_network</code>
+to interact with Heptapod.<br>
+
+<br>
+
+Create the directories and the volumes.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="2, 10, 13, 17"
+>
+<code>
+
+data_directory="replace_data_directory" # data_directory=/data/services
+
+container=replace_container # container=gitlab_ci
+container_hostname=replace_hostname # container_hostname=gitlab-ci
+volume=replace_volume # volume=gitlab_ci
+volume_configuration=${volume}_configuration
+volume_builds=${volume}_builds
+volume_cache=${volume}_cache
+network=replace_network # network=services
+
+sudo mkdir --parents "$data_directory/gitlab_ci"
+sudo chmod --recursive a+rwX "$data_directory/gitlab_ci/"
+
+mkdir "$data_directory/gitlab_ci/configuration"
+mkdir "$data_directory/gitlab_ci/builds"
+mkdir "$data_directory/gitlab_ci/cache"
+
+docker volume create \
+<span indent>--name $volume_configuration \
+--driver local-persist \
+--opt mountpoint="$data_directory/gitlab_ci/configuration/"</span>
+docker volume create \
+<span indent>--name $volume_builds \
+--driver local-persist \
+--opt mountpoint="$data_directory/gitlab_ci/builds/"</span>
+docker volume create \
+<span indent>--name $volume_cache \
+--driver local-persist \
+--opt mountpoint="$data_directory/gitlab_ci/cache/"</span>
+
+</code>
+</pre>
+
+<br>
+
+Place the
+<a href="config.toml" reference>
+configuration</a> file,
+<a href="https://docs.gitlab.com/runner/configuration/advanced-configuration" reference>
+adapt</a> as necessary.<br>
+Assign a description
+<code class="language-bash token variable">replace_container</code>
+to the agent.
+It will be visible in the user interface.
+Set the Heptapod hostname
+<code class="language-bash token variable">replace_hostname_gitlab</code> and
+the runner hostname
+<code class="language-bash token variable">replace_hostname</code>
+so they can reach out to and interact with each other within the internal network.<br>
+
+<br>
+
+Get an access
+<a href="https://docs.gitlab.com/runner/register" reference>
+token</a> for the agent.<br>
+Navigate the settings and generate a registration token
+<code class="language-bash token variable">replace_token</code>.<br>
+
+<br>
+
+Overview<br>
+Runners<br>
+Register an instance runner<br>
+
+<br>
+
+Execute the registration command.
+A configuration file will be created containing the access token.
+Save the token
+<code class="language-bash token variable">replace_token</code> and
+paste it into the prepared file.<br>
+Be aware that the registration procedure is undergoing a
+<a
+    href="https://docs.gitlab.com/ee/security/token_overview#runner-registration-tokens-deprecated"
+    reference
+>redesign</a> currently.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="3, 15, 18-20"
+>
+<code>
+
+hostname_gitlab=replace_hostname_gitlab # hostname_gitlab=gitlab
+token='replace_token' # token=********************
+
+docker run --rm --interactive --tty \
+<span indent>--name $container \
+--hostname $container_hostname \
+--network $network \
+--mount type=volume,source=$volume_configuration,destination=/etc/gitlab-runner \
+octobus/heptapod-runner \
+register --non-interactive \
+--name $container \
+--url "http://$hostname_gitlab/gitlab" \
+--registration-token $token \
+--executor docker --docker-image docker</span>
+
+sudo cat "$data_directory/gitlab_ci/configuration/config.toml"
+sudo rm "$data_directory/gitlab_ci/configuration/config.toml"
+
+# save the access token into the composed config.toml
+
+cp config.toml "$data_directory/gitlab_ci/configuration/"
+
+</code>
+</pre>
+
+<br>
+
+Now, if you are going to utilize
+<a href="https://docs.docker.com/build/ci/#docker-in-docker" reference>
+Docker in Docker</a> approach for builds, consider centralized volume management.<br>
+The <code class="language-bash token parameter variable">--volumes-from</code>
+<a
+    href="https://docs.docker.com/storage/volumes/#back-up-restore-or-migrate-data-volumes"
+    reference
+>parameter</a> might come in handy for decoupling build steps from build environments.
+A running reference container is mandatory for
+other containers to be able to copy its volume configuration.
+Carefully define the volumes container name
+<code class="language-bash token variable">replace_container_volumes</code> and
+the builds and cache volume names
+<code class="language-bash token variable">replace_volume</code>.<br>
+The network
+<code class="language-bash token variable">replace_network</code>
+also has to be repeated for pipeline connectivity.<br>
+Environment variables pass all possibly required options to pipelines.
+The container name
+<code class="language-bash token variable">replace_container</code>
+and the hostname
+<code class="language-bash token variable">replace_hostname</code>
+of the agent prepend the naming patterns for job containers.
+Overriding the location
+<code class="language-bash token variable">replace_hostname_gitlab</code>
+on the runner level forces communication through the internal network.<br>
+
+<br>
+
+There are sample
+<a href="scripts/" reference>
+scripts</a> for pulling sources manually.
+They also demonstrate the use of the technique.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="2, 12-13"
+>
+<code>
+
+container_volumes=replace_container_volumes # container_volumes=gitlab_ci_volumes
+
+docker run --detach --restart unless-stopped --interactive --tty --init \
+<span indent>--name $container_volumes \
+--hostname $(echo $container_volumes | tr '_' '-') \
+--network none \
+--mount type=volume,source=$volume_builds,destination=/builds \
+--mount type=volume,source=$volume_cache,destination=/cache \
+--mount type=bind,source=/etc/timezone,destination=/etc/timezone,readonly \
+--mount type=bind,source=/etc/localtime,destination=/etc/localtime,readonly \
+alpine sleep infinity</span>
+
+# chmod +x here or in pipelines
+cp --recursive scripts "$data_directory/gitlab_ci/builds/"
+
+</code>
+</pre>
+
+<br>
+
+Start the container.<br>
+Check the logs and the user interface and verify that the agent works.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output=""
+>
+<code>
+
+docker run --detach --restart unless-stopped \
+<span indent>--name $container \
+--hostname $container_hostname \
+--network $network \
+--mount type=volume,source=$volume_configuration,destination=/etc/gitlab-runner \
+--mount type=volume,source=$volume_cache,destination=/home/gitlab-runner \
+--mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock \
+--mount type=bind,source=/etc/timezone,destination=/etc/timezone,readonly \
+--mount type=bind,source=/etc/localtime,destination=/etc/localtime,readonly \
+octobus/heptapod-runner</span>
+
+</code>
+</pre>
+
+</section>
+
+</div>
+
+<div navigation>
+<nav directory>
+<a href="."><span icon>🗀 .</span></a>
+</nav>
+</div>
+
+</body>
+
+</html>

@@ -5,7 +5,6 @@ handle /portainer/* {
     reverse_proxy {
         to http://replace_container:9000
     }
-
 }
 
 handle /portainer {

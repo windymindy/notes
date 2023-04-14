@@ -1,0 +1,9 @@
+handle /gitlab/* {
+    reverse_proxy {
+        to http://replace_hostname:80
+    }
+}
+
+handle /gitlab {
+    redir * /gitlab/
+}

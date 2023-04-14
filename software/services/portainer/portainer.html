@@ -100,14 +100,13 @@ Apply the web server configuration.<br>
     class="language-bash command-line"
     data-prompt="$"
     data-continuation-str="\"
-    data-output="2, 4"
+    data-output="2"
 >
 <code>
 
 container_caddy=replace_container_caddy # container_caddy=caddy
 
 cp portainer.caddy "$data_directory/caddy/configuration/"
-
 docker container restart $container_caddy
 
 </code>
@@ -146,16 +145,17 @@ Access the site at the /portainer path and perform configurations.<br>
 
 <br>
 
-Users<br>
-replace_login<br>
-Change user password<br>
-<br>
 Settings<br>
 <br>
 Allow the collection of anonymous statistics<br>
 <br>
 Authentication<br>
 Session lifetime<br>
+Password rules<br>
+<br>
+Users<br>
+replace_login<br>
+Change user password<br>
 
 </section>
 
