@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>
+NGINX
+</title>
+
+<meta name="description" content="The NGNIX web server.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="color-scheme" content="dark light">
+
+<link rel="stylesheet" href="../../../.libraries/theme.css">
+<link rel="stylesheet" href="../../../.libraries/note.css">
+
+<link rel="stylesheet" href="../../../.libraries/prism/prism.css">
+<script src="../../../.libraries/prism/prism.js"></script>
+
+</head>
+
+<body>
+
+<div note>
+
+<section content>
+
+<h2>
+The NGINX web server
+</h2>
+<hr>
+
+<br>
+
+Using the
+<a href="https://nginx.org/" reference>
+NGINX web server<a> as a reverse proxy and a file server.<br>
+
+<br>
+
+Specify the
+<code class="language-bash token variable">replace_data_directory</code>
+directory to keep all
+<a href="https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-docker/#managing-content-and-configuration-files" reference>
+data</a>
+<a href="https://hub.docker.com/_/nginx" reference>
+where</a> you want it.<br>
+Choose a name for the container
+<code class="language-bash token variable">replace_container</code>,
+for the volumes
+<code class="language-bash token variable">replace_volume</code> and
+for the network
+<code class="language-bash token variable">replace_network</code>.<br>
+Use one or more Docker networks to hide services behind the reverse proxy.
+In this setup, applications do not publish any ports.
+Instead, they are added to networks where they communicate with other containers, including
+the reverse proxy server.
+It becomes a single configuration point that terminates TLS and routes requests.<br>
+
+<br>
+
+Create the directories. Create the volumes and the network.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="2, 11, 14, 20, 41"
+>
+<code>
+
+data_directory="replace_data_directory" # data_directory=/data/services
+
+container=replace_container # container=nginx
+volume=replace_volume # volume=nginx
+volume_configuration=${volume}_configuration
+volume_tls=${volume}_tls
+volume_content=${volume}_content
+volume_cache=${volume}_cache
+volume_logs=${volume}_logs
+network=replace_network # network=services
+
+sudo mkdir --parents "$data_directory/nginx"
+sudo chmod --recursive a+rwX "$data_directory/nginx/"
+
+mkdir "$data_directory/nginx/configuration"
+mkdir "$data_directory/nginx/tls"
+mkdir "$data_directory/nginx/content"
+mkdir "$data_directory/nginx/cache"
+mkdir "$data_directory/nginx/logs"
+
+docker volume create \
+<span indent>--name $volume_configuration \
+--driver local-persist \
+--opt mountpoint="$data_directory/nginx/configuration/"</span>
+docker volume create \
+<span indent>--name $volume_tls \
+--driver local-persist \
+--opt mountpoint="$data_directory/nginx/tls/"</span>
+docker volume create \
+<span indent>--name $volume_content \
+--driver local-persist \
+--opt mountpoint="$data_directory/nginx/content/"</span>
+docker volume create \
+<span indent>--name $volume_cache \
+--driver local-persist \
+--opt mountpoint="$data_directory/nginx/cache/"</span>
+docker volume create \
+<span indent>--name $volume_logs \
+--driver local-persist \
+--opt mountpoint="$data_directory/nginx/logs/"</span>
+
+docker network create $network
+
+</code>
+</pre>
+
+<br>
+
+Start the container.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output=""
+>
+<code>
+
+docker run --detach --restart unless-stopped \
+<span indent>--name $container \
+--hostname $container \
+--network $network \
+--publish 80:80 \
+--publish 443:443 \
+--mount type=volume,source=$volume_configuration,destination=/etc/nginx \
+--mount type=volume,source=$volume_tls,destination=/etc/ssl \
+--mount type=volume,source=$volume_content,destination=/usr/share/nginx/html \
+--mount type=volume,source=$volume_cache,destination=/var/cache/nginx \
+--mount type=volume,source=$volume_logs,destination=/var/log/nginx \
+--mount type=bind,source=/etc/timezone,destination=/etc/timezone,readonly \
+--mount type=bind,source=/etc/localtime,destination=/etc/localtime,readonly \
+nginx</span>
+
+</code>
+</pre>
+
+<br>
+
+<a href="https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/" reference>
+Configure</a> the server for
+<a href="https://docs.nginx.com/nginx/admin-guide/web-server/web-server/" reference>
+your</a> use case.<br>
+Reload the configuration.<br>
+
+<br>
+
+Put your TLS key and certificate pair
+<code class="language-bash token variable">replace_key</code>
+into the server directory and
+point the configuration file to them.<br>
+Alternatively, configure
+<a href="https://github.com/acmesh-official/acme.sh" reference>
+automatic provisioning</a> of keys and certificates.<br>
+
+<br>
+
+<pre
+    class="language-bash command-line"
+    data-prompt="$"
+    data-continuation-str="\"
+    data-output="2, 5"
+>
+<code>
+
+edit "$data_directory/nginx/configuration/nginx.conf"
+
+mv replace_key.key "$data_directory/nginx/tls/"
+mv replace_key.crt "$data_directory/nginx/tls/"
+
+docker kill --signal HUP $container
+
+</code>
+</pre>
+
+</section>
+
+</div>
+
+<div navigation>
+<nav directory>
+<a href="."><span icon>🗀 .</span></a>
+</nav>
+</div>
+
+</body>
+
+</html>
